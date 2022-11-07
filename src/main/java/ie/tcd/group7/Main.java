@@ -1,4 +1,4 @@
-package ie.tcd.meudecd;
+package ie.tcd.group7;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;

@@ -2,14 +2,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   
   <modelVersion>4.0.0</modelVersion>
-  <groupId>ie.tcd.meudecd</groupId>
-  <artifactId>Assignment1</artifactId>
+  <groupId>ie.tcd.group7</groupId>
+  <artifactId>Assignment2</artifactId>
   
   <packaging>jar</packaging>
   
   <version>1.0</version>
   
-  <name>Assignment1</name>
+  <name>Assignment2</name>
   
   <url>http://maven.apache.org</url>
   
@@ -96,7 +96,7 @@
               <createDependencyReducedPom>false</createDependencyReducedPom>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>ie.tcd.meudecd.Main</mainClass>
+                  <mainClass>ie.tcd.group7.Main</mainClass>
                 </transformer>
               </transformers>
             </configuration>

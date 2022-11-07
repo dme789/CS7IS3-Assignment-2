@@ -1,11 +1,12 @@
-# CS7IS3-Assignment-1
-#### Dominique Meudec - 18327666
+# CS7IS3-Assignment-2
+## Group 7
 
-This assignment uses Apache Lucence to index and search the Cranfield Collection.
-The project directory already includes the Cranfield collection, which can 
-be found [online here](http://ir.dcs.gla.ac.uk/resources/test_collections/cran/).
-The project also uses [trec_eval](https://github.com/usnistgov/trec_eval/blob/master/README) to evaluate the result of the program with the
-provided cranqrel file from the Cranfield Collection. 
+## Members
+Dominique Meudec - 18327666
+
+## Description
+
+text
 
 
 ## Usage
@@ -21,17 +22,5 @@ program, run the following command:
 java -jar target/Assignment1-1.0.jar
 ```
 
-You will be prompted twice, once to select an Analyzer and once to select a Scoring method
-of your choice. In both instances, you will be prompted to reply with a number
-selecting your choice.
-
 ## Result
-To return the Mean Average Precision (MAP) score, run the following command:
-```bash
-trec_eval-9.0.7/trec_eval -m map cran-data/QRelsCorrectedforTRECeval results/query-results.txt
-```
-
-To return the Recall score, run the following command:
-```bash
-trec_eval-9.0.7/trec_eval -m recall cran-data/QRelsCorrectedforTRECeval results/query-results.txt
-```
+text

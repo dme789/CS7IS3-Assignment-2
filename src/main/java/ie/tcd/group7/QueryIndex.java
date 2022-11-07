@@ -1,4 +1,4 @@
-package ie.tcd.meudecd;
+package ie.tcd.group7;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
