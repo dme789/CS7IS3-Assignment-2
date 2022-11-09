@@ -21,13 +21,24 @@ import org.apache.lucene.search.similarities.ClassicSimilarity;
 import org.apache.lucene.search.similarities.LMDirichletSimilarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
- 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
+
+
 public class CreateIndex
 {
     
     // Directory where the search index will be saved
     private static String INDEX_DIRECTORY = "index";
-    private static String CRAN_DATA = "cran-data/cran.all.1400";
+    private static String CRAN_DATA = "data/Assignment Two/Assignment Two/ft/ft911/ft911_1";
 
     public static int createIndex(Analyzer analyzer) throws IOException
     {
@@ -45,6 +56,7 @@ public class CreateIndex
             BufferedReader cranReader = new BufferedReader(new FileReader(CRAN_DATA));
             String currLine = cranReader.readLine();
             int docNumbers = 0;
+             /*
             while(currLine != null) {
                 String title = "";
                 String author = "";
@@ -87,12 +99,58 @@ public class CreateIndex
                     doc.add(new TextField("content", words.trim(), Field.Store.YES));
                     iwriter.addDocument(doc);
                 }
+                
                 docNumbers++;
             }
+            */
+            Path path = Paths.get("data/Assignment Two/Assignment Two/ft/ft911/ft911_1");
+            byte[] fileBytes = Files.readAllBytes(path);
+            //convert the file to a string 
+            String fileString = new String(fileBytes, StandardCharsets.ISO_8859_1);
+
+                //using Jsoup parsing package to split into fields by <> tag 
+                org.jsoup.nodes.Document soup = Jsoup.parse(fileString);
+
+                //splits the file at each new DOC tag
+                List<Element> elements = soup.getElementsByTag("DOC");
+                Document document = new Document();
+
+                //for each DOC, split it into its various fields
+                for(Element element : elements){
+
+                //Creates a document with the fields specified to be written to an index
+                String id = element.getElementsByTag("DOCNO").text();
+                document.add(new StringField("id", id, Field.Store.YES));
+
+                String headline = element.getElementsByTag("HEADLINE").text();
+                document.add(new StringField("title", headline, Field.Store.YES));
+
+                String profile = element.getElementsByTag("PROFILE").text();
+                document.add(new TextField("profile", profile, Field.Store.YES));
+
+                String date = element.getElementsByTag("DATE").text();
+                document.add(new TextField("date", date, Field.Store.YES));
+
+                String text = element.getElementsByTag("TEXT").text();
+                document.add(new TextField("text", text, Field.Store.YES));
+
+                String pub = element.getElementsByTag("PUB").text();
+                document.add(new TextField("pub", pub, Field.Store.YES));
+
+                String page = element.getElementsByTag("PAGE").text();
+                document.add(new TextField("page", page, Field.Store.YES));
+
+               // currLine = cranReader.readLine();
+                iwriter.addDocument(document);
+                System.out.println(document);
+
+            docNumbers++;
+                }
+
             cranReader.close();
             System.out.println("FINISHED: Indexing, total docs added is " + docNumbers);
 
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
