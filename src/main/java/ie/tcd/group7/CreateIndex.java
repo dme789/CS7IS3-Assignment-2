@@ -178,7 +178,7 @@ public class CreateIndex
                //FT class to access functions in FT.java
                 FT data = new FT();
                 //parse_file function in FT.java splits the doc into fields. 
-                ArrayList<Document> documents = data.parse_file();
+                ArrayList<Document> documents = data.parse_FT();
                 //for loop to parse every occurence of DOC tag, not just one. 
                 for(Document document : documents){
                 iwriter.addDocument(document);

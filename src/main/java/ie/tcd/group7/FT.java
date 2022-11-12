@@ -1,4 +1,5 @@
 package ie.tcd.group7;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -33,65 +34,91 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class FT {
-
-    public ArrayList<Document> parse_file() throws IOException{
-
+    private final static File FT_DIR = new File("data/Assignment Two/Assignment Two/ft");
     ArrayList<Document> ft_data = new ArrayList();
 
-    Path path = Paths.get("data/Assignment Two/Assignment Two/ft/ft911/");
-    byte[] fileBytes = Files.readAllBytes(path);
-    String fileString = new String(fileBytes, StandardCharsets.ISO_8859_1);
+    public ArrayList<Document> parse_FT() throws IOException {
+        //ArrayList<Document> 
+        access_directory(FT_DIR.getAbsolutePath());
 
+        return ft_data;
+    }
 
-                //using Jsoup parsing package to split into fields by <> tag 
-                org.jsoup.nodes.Document soup = Jsoup.parse(fileString);
+    public void parse_file(String file) throws IOException {
+        //ArrayList<Document> ft_data = new ArrayList();
 
-                //splits the file at each new DOC tag
-                List<Element> elements = soup.getElementsByTag("DOC");
-                Document document = new Document();
+        //Path path = Paths.get("data/Assignment Two/Assignment Two/ft/ft911/");
+        //byte[] fileBytes = Files.readAllBytes(path);
+        //String fileString = new String(fileBytes, StandardCharsets.ISO_8859_1);
 
-                //for each DOC, split it into its various fields
-                for(Element element : elements){
+        File parse_file = new File(file);
 
-                //Creates a document with the fields specified to be written to an index
-                String id = element.getElementsByTag("DOCNO").text();
-                document.add(new StringField("id", id, Field.Store.YES));
+        // using Jsoup parsing package to split into fields by <> tag
+        org.jsoup.nodes.Document soup = Jsoup.parse(parse_file, "UTF-8", "http://example.com/");
 
-                String headline = element.getElementsByTag("HEADLINE").text();
-                document.add(new StringField("title", headline, Field.Store.YES));
+        // splits the file at each new DOC tag
+        List<Element> elements = soup.getElementsByTag("DOC");
+        //Document document = new Document();
 
-                String profile = element.getElementsByTag("PROFILE").text();
-                document.add(new TextField("profile", profile, Field.Store.YES));
+        // for each DOC, split it into its various fields
+        for (Element element : elements) {
+            
+            Document document = new Document();
 
-                String date = element.getElementsByTag("DATE").text();
-                document.add(new TextField("date", date, Field.Store.YES));
+            // Creates a document with the fields specified to be written to an index
+            String id = element.getElementsByTag("DOCNO").text();
+            document.add(new StringField("id", id, Field.Store.YES));
 
-                String text = element.getElementsByTag("TEXT").text();
-                document.add(new TextField("text", text, Field.Store.YES));
+            String headline = element.getElementsByTag("HEADLINE").text();
+            document.add(new StringField("title", headline, Field.Store.YES));
 
-                String pub = element.getElementsByTag("PUB").text();
-                document.add(new TextField("pub", pub, Field.Store.YES));
+            String profile = element.getElementsByTag("PROFILE").text();
+            document.add(new TextField("profile", profile, Field.Store.YES));
 
-                String page = element.getElementsByTag("PAGE").text();
-                document.add(new TextField("page", page, Field.Store.YES));
+            String date = element.getElementsByTag("DATE").text();
+            document.add(new TextField("date", date, Field.Store.YES));
 
-                ft_data.add(document);
+            String text = element.getElementsByTag("TEXT").text();
+            document.add(new TextField("text", text, Field.Store.YES));
+
+            String pub = element.getElementsByTag("PUB").text();
+            document.add(new TextField("pub", pub, Field.Store.YES));
+
+            String page = element.getElementsByTag("PAGE").text();
+            document.add(new TextField("page", page, Field.Store.YES));
+
+            ft_data.add(document);
+
+        }
+        //return ft_data;
+
+    }
+
+    public void access_directory(String filepath) throws IOException {
+
+        // creates file at filepath
+        File file_dir = new File(filepath);
+        // make list of all files in the directory
+        File[] dir_list = file_dir.listFiles();
+
+        if (dir_list != null) {
+            for (File file : dir_list) {
+                //if still in a folder, keep going deeper untit the directory 
+                if (file.isDirectory()) {
+                    access_directory(file.getAbsolutePath());
+                }
+                else{
+                    if(!file.getName().equals("readmeft") && !file.getName().equals("readfrcg")){
+                        //when you have access to file, parse it with parse function
+                        parse_file(file.getAbsolutePath());
+
+                    }
+                }
+
+            }
+        }
+
+    }
 
 }
-                return ft_data;
-
-}
-
-public ArrayList<Document> access_directory() throws IOException{
-
-
-    ArrayList<Document> ft_data = parse_file();
-
-    return ft_data;
-}
-
-}
-
-
