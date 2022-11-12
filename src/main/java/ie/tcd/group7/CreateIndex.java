@@ -1,4 +1,5 @@
 package ie.tcd.group7;
+import ie.tcd.group7.FT;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -24,11 +25,13 @@ import org.apache.lucene.store.FSDirectory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,6 +45,7 @@ public class CreateIndex
 
     public static int createIndex(Analyzer analyzer) throws IOException
     {
+
 
         Directory directory = FSDirectory.open(Paths.get(INDEX_DIRECTORY));
 
@@ -102,12 +106,39 @@ public class CreateIndex
                 
                 docNumbers++;
             }
-            */
+            
+            
             Path path = Paths.get("data/Assignment Two/Assignment Two/ft/ft911/ft911_1");
             byte[] fileBytes = Files.readAllBytes(path);
-            //convert the file to a string 
             String fileString = new String(fileBytes, StandardCharsets.ISO_8859_1);
 
+
+
+
+           // final File FT_DIR = new File("data/Assignment Two/Assignment Two/ft");
+           //String get_path = FT_DIR.getAbsolutePath();
+
+/*    //public static void access_directory(String get_path){
+              //  String file4;
+            //}
+
+            access_directory(FT_DIR.getAbsolutePath());
+            //get abs path of ft folder
+            //File get_path = new File(FT_DIR.getAbsolutePath());
+            //returns and stores as list the list of files in that folder 
+            File[] file_list = get_path.listFiles();
+
+            while(file_list != null){
+                    for(File file : file_list){
+                    if(file.isDirectory()){
+
+                    }
+                }
+            }
+        
+         
+            //convert the file to a string 
+            
                 //using Jsoup parsing package to split into fields by <> tag 
                 org.jsoup.nodes.Document soup = Jsoup.parse(fileString);
 
@@ -140,13 +171,23 @@ public class CreateIndex
                 String page = element.getElementsByTag("PAGE").text();
                 document.add(new TextField("page", page, Field.Store.YES));
 
+                */
+
                // currLine = cranReader.readLine();
+              
+               //FT class to access functions in FT.java
+                FT data = new FT();
+                //parse_file function in FT.java splits the doc into fields. 
+                ArrayList<Document> documents = data.parse_file();
+                //for loop to parse every occurence of DOC tag, not just one. 
+                for(Document document : documents){
                 iwriter.addDocument(document);
-                System.out.println(document);
-
-            docNumbers++;
+                docNumbers++;
+                //System.out.println(document);
                 }
+                
 
+        
             cranReader.close();
             System.out.println("FINISHED: Indexing, total docs added is " + docNumbers);
 
