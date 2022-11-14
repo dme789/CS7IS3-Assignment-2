@@ -141,7 +141,7 @@ public class CreateIndex {
              * 
              * 
              * 
-             
+              */
 
 // ----------------------Parsing Financial Times data----------------------------
 
@@ -166,7 +166,7 @@ public class CreateIndex {
             for (Document FRdocument : FRdocuments) {
                 iwriter.addDocument(FRdocument);
                 docNumbers++;
-                System.out.println(FRdocument);
+                //System.out.println(FRdocument);
             }
 
 // ----------------------Parsing FBIS data----------------------------
@@ -180,7 +180,7 @@ public class CreateIndex {
                 docNumbers++;
                 //System.out.println(FBISdocument);
             }
-            */
+            
 
 // ----------------------Parsing LA times data----------------------------
 
@@ -191,7 +191,7 @@ public class CreateIndex {
             for (Document LAdocument : LAdocuments) {
                 iwriter.addDocument(LAdocument);
                 docNumbers++;
-                System.out.println(LAdocument);
+                //System.out.println(LAdocument);
             }
 
 
