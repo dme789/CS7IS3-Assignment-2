@@ -3,6 +3,7 @@ package ie.tcd.group7;
 import ie.tcd.group7.FT;
 import ie.tcd.group7.FR;
 import ie.tcd.group7.FBIS;
+import ie.tcd.group7.LA;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -140,7 +141,7 @@ public class CreateIndex {
              * 
              * 
              * 
-             */
+             
 
 // ----------------------Parsing Financial Times data----------------------------
 
@@ -178,6 +179,19 @@ public class CreateIndex {
                 iwriter.addDocument(FBISdocument);
                 docNumbers++;
                 //System.out.println(FBISdocument);
+            }
+            */
+
+// ----------------------Parsing LA times data----------------------------
+
+            LA LAdata = new LA();
+            // parse_file function in FT.java splits the doc into fields.
+            ArrayList<Document> LAdocuments = LAdata.parse_LA();
+            // for loop to parse every occurence of DOC tag, not just one.
+            for (Document LAdocument : LAdocuments) {
+                iwriter.addDocument(LAdocument);
+                docNumbers++;
+                System.out.println(LAdocument);
             }
 
 
