@@ -2,6 +2,7 @@ package ie.tcd.group7;
 
 import ie.tcd.group7.FT;
 import ie.tcd.group7.FR;
+import ie.tcd.group7.FBIS;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -138,8 +139,8 @@ public class CreateIndex {
              * // currLine = cranReader.readLine();
              * 
              * 
-             * */
-             
+             * 
+             */
 
 // ----------------------Parsing Financial Times data----------------------------
 
@@ -166,6 +167,19 @@ public class CreateIndex {
                 docNumbers++;
                 System.out.println(FRdocument);
             }
+
+// ----------------------Parsing FBIS data----------------------------
+
+            FBIS FBISdata = new FBIS();
+            // parse_file function in FT.java splits the doc into fields.
+            ArrayList<Document> FBISdocuments = FBISdata.parse_FBIS();
+            // for loop to parse every occurence of DOC tag, not just one.
+            for (Document FBISdocument : FBISdocuments) {
+                iwriter.addDocument(FBISdocument);
+                docNumbers++;
+                //System.out.println(FBISdocument);
+            }
+
 
             cranReader.close();
             System.out.println("FINISHED: Indexing, total docs added is " + docNumbers);
