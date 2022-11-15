@@ -44,7 +44,7 @@ public class FR {
     </DOC>
      */
 
-    private final static File FR_DIR = new File("data/Assignment Two/Assignment Two/fr94");
+    private final static File FR_DIR = new File("data/Assignment Two/Documents/fr94");
     ArrayList<Document> fr_data = new ArrayList();
 
     public ArrayList<Document> parse_FR() throws IOException {
