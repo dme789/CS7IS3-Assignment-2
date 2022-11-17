@@ -26,7 +26,7 @@ import org.apache.lucene.search.IndexSearcher;
 public class QueryIndex {
 
     private static String INDEX_DIRECTORY = "index";
-    private static String CRAN_QUERY = "cran-data/cran.qry";
+    private static String QUERY_DATA = "data/Assignment Two/Queries/topics";
     private static String RESULT_DIRECTORY = "results/query-results.txt";
 
     public static void search(int scoringType, Analyzer analyzer) throws Exception
@@ -58,45 +58,59 @@ public class QueryIndex {
 
         try {
             System.out.println("Starting index querying...");
-            BufferedReader queryReader = new BufferedReader(new FileReader(CRAN_QUERY));
+            BufferedReader queryReader = new BufferedReader(new FileReader(QUERY_DATA));
             BufferedWriter queryWriter = new BufferedWriter(new FileWriter(RESULT_DIRECTORY));
             String currLine = queryReader.readLine();
             int queryNumber = 0;
             while(currLine != null) {
                 queryNumber++;
+                String num = "";
+                String title = "";
+                String description = "";
+                String narrative = "";
                 String query = "";
 
-                // checking for new document
-                if (currLine.startsWith(".I")) {
+                // checking for new topic
+                if (currLine.startsWith("<top>")) {
                     currLine = queryReader.readLine();
                     String currAtr = "";
-                    while (currLine != null) {
-                        if (currLine.startsWith(".W")) {
-                            currAtr = currLine.substring(0,2);
+                    while (!currLine.startsWith("</top>")) {
+                        if(currLine.equals("")) {
+                            currAtr = "";
                             currLine = queryReader.readLine();
-                        } else if (currLine.startsWith(".I")) {
+                        }
+                        if (currLine.startsWith("</top")) {
                             break;
                         }
-                        if (!currLine.substring(0,1).equals(" ")) {
-                            currLine = " " + currLine;
+                        if (currLine.startsWith("<num>")) {
+                            num = currLine.substring(currLine.length()-4).trim();
+                        } else if (currLine.startsWith("<title>")) {
+                            title = currLine.substring(8).trim();
+                        } else if (currLine.startsWith("<desc>") || currLine.startsWith("<narr")) {
+                            currAtr = currLine.substring(0,2);
+                            currLine = queryReader.readLine();
                         }
-                        if (currAtr.equals(".W")) {
-                            query = query + currLine;
+                        if (currAtr.equals("<d")) {
+                            description = description + " " + currLine;
+                        } else if (currAtr.equals("<n")) {
+                            narrative = narrative + " " + currLine;
+                        }
+
+                        if (queryNumber < 4) {
+                            System.out.println(currLine);
                         }
                         currLine = queryReader.readLine();
                     }
+                    description = description.trim();
+                    narrative = narrative.trim();
+                    if (queryNumber < 4) {
+                        System.out.println("Number: " + num + "\nTitle: " + title + "\nDesc: " + description + "\nNarrative: " + narrative + "\n");
+                    }
+                    System.out.println(queryNumber);
                 }
-                query = query.trim();
-                query = query.replace("?", "");
-                Query queryQ = queryParser.parse(QueryParser.escape(query));
-                ScoreDoc[] hits = isearcher.search(queryQ, 50).scoreDocs;
-
-                for (int i =0; i < hits.length; i++) {
-                    queryWriter.write(queryNumber + " Q0 " + isearcher.doc(hits[i].doc).get("id") + " " + i +
-                            " " + hits[i].score + " STANDARD");
-                    queryWriter.newLine();
-                }
-
+                // do this twice to skip blank line
+                currLine = queryReader.readLine();
+                currLine = queryReader.readLine();
             }
             queryReader.close();
             queryWriter.close();

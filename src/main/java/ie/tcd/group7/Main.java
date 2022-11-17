@@ -15,10 +15,12 @@ public class Main
         Analyzer analyzer = setAnalyzer();
 
         // create index, returns int defining scoring type
-        int scoringType = CreateIndex.createIndex(analyzer);
+        //int scoringType = CreateIndex.createIndex(analyzer);
 
         // query index
-        QueryIndex.search(scoringType, analyzer);
+        // QueryIndex.search(scoringType, analyzer);
+        QueryIndex.search(1, analyzer);
+
         System.out.println("PROGRAM COMPLETED");
     }
 
