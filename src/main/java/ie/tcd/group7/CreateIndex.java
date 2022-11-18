@@ -43,7 +43,6 @@ public class CreateIndex {
 
     // Directory where the search index will be saved
     private static String INDEX_DIRECTORY = "index";
-    private static String CRAN_DATA = "data/Assignment Two/Assignment Two/ft/ft911/ft911_1";
 
     public static int createIndex(Analyzer analyzer) throws IOException {
 
@@ -57,91 +56,7 @@ public class CreateIndex {
 
         try {
             System.out.println("Starting index processing...");
-            BufferedReader cranReader = new BufferedReader(new FileReader(CRAN_DATA));
-            String currLine = cranReader.readLine();
             int docNumbers = 0;
-            /*
-             * while(currLine != null) {
-             * String title = "";
-             * String author = "";
-             * String bib = "";
-             * String words = "";
-             * Document doc = new Document();
-             * 
-             * // checking for new document
-             * if (currLine.startsWith(".I")) {
-             * // adding doc id to document
-             * String id_val = currLine.substring(3).trim();
-             * doc.add(new StringField("id", id_val, Field.Store.YES));
-             * currLine = cranReader.readLine();
-             * String currAtr = ""; // used to keep track of what doc element is being read
-             * while (currLine != null) {
-             * if (currLine.startsWith(".T") || currLine.startsWith(".A") ||
-             * currLine.startsWith(".B") || currLine.startsWith(".W")) {
-             * currAtr = currLine.substring(0,2);
-             * currLine = cranReader.readLine();
-             * } else if (currLine.startsWith(".I")) { // end of doc
-             * break;
-             * }
-             * // add space as there may be two words joined otherwise
-             * if (!currLine.substring(0,1).equals(" ")) {
-             * currLine = " " + currLine;
-             * }
-             * if (currAtr.equals(".T")) {
-             * title = title + currLine;
-             * } else if (currAtr.equals(".A")) {
-             * author = author + currLine;
-             * } else if (currAtr.equals(".B")) {
-             * bib = bib + currLine;
-             * } else if (currAtr.equals(".W")) {
-             * words = words + currLine;
-             * }
-             * currLine = cranReader.readLine();
-             * }
-             * doc.add(new TextField("title", title.trim(), Field.Store.YES));
-             * doc.add(new TextField("author", author.trim(), Field.Store.YES));
-             * doc.add(new TextField("bib", bib.trim(), Field.Store.YES));
-             * doc.add(new TextField("content", words.trim(), Field.Store.YES));
-             * iwriter.addDocument(doc);
-             * }
-             * 
-             * docNumbers++;
-             * }
-             * 
-             * 
-             * Path path = Paths.get("data/Assignment Two/Assignment Two/ft/ft911/ft911_1");
-             * byte[] fileBytes = Files.readAllBytes(path);
-             * String fileString = new String(fileBytes, StandardCharsets.ISO_8859_1);
-             * 
-             * 
-             * 
-             * 
-             * // final File FT_DIR = new File("data/Assignment Two/Assignment Two/ft");
-             * //String get_path = FT_DIR.getAbsolutePath();
-             * 
-             * //public static void access_directory(String get_path){
-             * // String file4;
-             * //}
-             * 
-             * access_directory(FT_DIR.getAbsolutePath());
-             * //get abs path of ft folder
-             * //File get_path = new File(FT_DIR.getAbsolutePath());
-             * //returns and stores as list the list of files in that folder
-             * File[] file_list = get_path.listFiles();
-             * 
-             * while(file_list != null){
-             * for(File file : file_list){
-             * if(file.isDirectory()){
-             * 
-             * }
-             * }
-             * }
-             * 
-             * // currLine = cranReader.readLine();
-             * 
-             * 
-             * 
-              */
 
 // ----------------------Parsing Financial Times data----------------------------
 
@@ -194,8 +109,6 @@ public class CreateIndex {
                 //System.out.println(LAdocument);
             }
 
-
-            cranReader.close();
             System.out.println("FINISHED: Indexing, total docs added is " + docNumbers);
 
         } catch (Exception e) {

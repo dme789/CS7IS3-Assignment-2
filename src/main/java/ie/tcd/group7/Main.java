@@ -22,7 +22,9 @@ public class Main
         // query index
         Searcher searcher = new Searcher(scoringType, analyzer);
         searcher.scoreQuery();
-//        QueryIndex.search(scoringType, analyzer);
+        
+        QueryIndex.search(scoringType, analyzer);
+
         System.out.println("PROGRAM COMPLETED");
     }
 

@@ -35,7 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FT {
-    private final static File FT_DIR = new File("data/Assignment Two/Assignment Two/ft");
+    private final static File FT_DIR = new File("data/Assignment Two/Documents/ft");
     ArrayList<Document> ft_data = new ArrayList();
 
     public ArrayList<Document> parse_FT() throws IOException {

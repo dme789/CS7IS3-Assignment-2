@@ -44,7 +44,7 @@ public class LA {
     </DOC>
      */
 
-    private final static File LA_DIR = new File("data/Assignment Two/Assignment Two/latimes");
+    private final static File LA_DIR = new File("data/Assignment Two/Documents/latimes");
     ArrayList<Document> la_data = new ArrayList();
 
     public ArrayList<Document> parse_LA() throws IOException {

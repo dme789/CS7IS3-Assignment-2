@@ -50,7 +50,7 @@ Document Type:FOREIGN MEDIA NOTE--FB PN 94-028
     </DOC>
      */
 
-    private final static File FBIS_DIR = new File("data/Assignment Two/Assignment Two/fbis");
+    private final static File FBIS_DIR = new File("data/Assignment Two/Documents/fbis");
     ArrayList<Document> fbis_data = new ArrayList();
 
     public ArrayList<Document> parse_FBIS() throws IOException {
