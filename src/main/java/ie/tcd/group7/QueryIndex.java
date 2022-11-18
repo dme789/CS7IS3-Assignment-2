@@ -54,7 +54,7 @@ public class QueryIndex {
         }
 
 
-        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "author", "bib", "content"}, analyzer);
+        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text", "pub", "profile", "header"}, analyzer);
 
         try {
             System.out.println("Starting index querying...");
@@ -62,6 +62,7 @@ public class QueryIndex {
             BufferedWriter queryWriter = new BufferedWriter(new FileWriter(RESULT_DIRECTORY));
             String currLine = queryReader.readLine();
             int queryNumber = 0;
+            // loops through entire topic file generating and querying from topics
             while(currLine != null) {
                 queryNumber++;
                 String num = "";
@@ -70,7 +71,7 @@ public class QueryIndex {
                 String narrative = "";
                 String query = "";
 
-                // checking for new topic
+                // creates query from topic
                 if (currLine.startsWith("<top>")) {
                     currLine = queryReader.readLine();
                     String currAtr = "";
@@ -95,22 +96,28 @@ public class QueryIndex {
                         } else if (currAtr.equals("<n")) {
                             narrative = narrative + " " + currLine;
                         }
-
-                        if (queryNumber < 4) {
-                            System.out.println(currLine);
-                        }
                         currLine = queryReader.readLine();
                     }
                     description = description.trim();
                     narrative = narrative.trim();
-                    if (queryNumber < 4) {
-                        System.out.println("Number: " + num + "\nTitle: " + title + "\nDesc: " + description + "\nNarrative: " + narrative + "\n");
-                    }
-                    System.out.println(queryNumber);
                 }
-                // do this twice to skip blank line
+                // do this twice to skip blank line between topics
                 currLine = queryReader.readLine();
                 currLine = queryReader.readLine();
+
+                // query composition from topic fields
+                query = (title+ "\n" + narrative + "\n" + description).trim();
+                query = query.replace("?", "");
+                Query queryQ = queryParser.parse(QueryParser.escape(query));
+                ScoreDoc[] hits = isearcher.search(queryQ, 1000).scoreDocs;
+
+                // writing results of query
+                for (int i =0; i < hits.length; i++) {
+                    queryWriter.write(num + " Q0 " + isearcher.doc(hits[i].doc).get("id") + " " + i +
+                            " " + hits[i].score + " STANDARD");
+                    queryWriter.newLine();
+                }
+
             }
             queryReader.close();
             queryWriter.close();
