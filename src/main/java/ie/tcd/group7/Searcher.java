@@ -23,7 +23,6 @@ public class Searcher {
     private Similarity similarity;
     private List<Query> queries;
     private MultiFieldQueryParser multiParser;
-//    private QueryParser parser;
     private String runName;
     private IndexSearcher searcher;
     private static final String PATH_OF_RESULTS = "data/answer.test";   // directory of the result file
@@ -37,8 +36,6 @@ public class Searcher {
         this.queries = queries;
         // BASIC MULTI PARSER FOR NOW
         this.multiParser = new MultiFieldQueryParser(new String[]{"title", "text", "pub", "profile", "header"}, analyzer);
-        // TODO : DETAILED PARSER
-//        this.parser = getParser("SINGLE");
     }
 
 
@@ -83,25 +80,7 @@ public class Searcher {
         }
         return similarity;
     }
-    //TODO: Based on the query extract part, get the query,
-    //  we can decide if we need to add the multi/singel paraser logic to the model
-//    private QueryParser getParser(String paraseMode) {
-//        // Use single field to set up the query parser -- "content" field
-//        if (paraseMode.equals("SINGLE")) {
-//            return new QueryParser("content", this.analyzer);
-//        } else {
-//            // Use multiple field to set up the query parser
-//            return new MultiFieldQueryParser(
-//                    new String[] {"title", "content", "subject", "location"}, this.analyzer,
-//                    new HashMap<String, Float>() {{
-//                        put("title", 0.02f);
-//                        put("content", 1.0f);
-//                        put("subject", 0.02f);
-//                        put("location", 0.04f);
-//                    }}
-//            );
-//        }
-//    }
+
 
     public void scoreQuery() {
             try {
