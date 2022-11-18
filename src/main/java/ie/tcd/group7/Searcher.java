@@ -21,18 +21,23 @@ import org.apache.lucene.store.FSDirectory;
 public class Searcher {
     private Analyzer analyzer;
     private Similarity similarity;
+    private List<Query> queries;
+    private MultiFieldQueryParser multiParser;
 //    private QueryParser parser;
     private String runName;
     private IndexSearcher searcher;
     private static final String PATH_OF_RESULTS = "data/answer.test";   // directory of the result file
     private static final String PATH_OF_INDEX = "index/"; // directory of the index file
 
-    public Searcher(int scoringType, Analyzer analyzer) {
+    public Searcher(int scoringType, Analyzer analyzer, List<Query> queries) {
         System.out.println("Begin Creating Searcher");
         // Retrival model settings
         this.analyzer = analyzer;
         this.similarity = getSimilarity(scoringType);
-        // TODO: PARASER CAN DIVIDE INTO DEFAULT AND MULTI PARTS
+        this.queries = queries;
+        // BASIC MULTI PARSER FOR NOW
+        this.multiParser = new MultiFieldQueryParser(new String[]{"title", "text", "pub", "profile", "header"}, analyzer);
+        // TODO : DETAILED PARSER
 //        this.parser = getParser("SINGLE");
     }
 
@@ -114,9 +119,9 @@ public class Searcher {
             Writer writer = new FileWriter(new File(PATH_OF_RESULTS));
 
             //TODO: Get a list of the search queries
-            List<Query> queries = new ArrayList<Query>();
+            List<Query> queries = this.queries;
 
-            // Write the search results for each queriy to file
+            // Write the search results for each query to file
             int num = 0;
             for (Query query : queries) {
                 List<Result> results = getResults(num++, query);
