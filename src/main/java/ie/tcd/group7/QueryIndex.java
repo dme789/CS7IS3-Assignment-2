@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 
@@ -26,84 +28,78 @@ import org.apache.lucene.search.IndexSearcher;
 public class QueryIndex {
 
     private static String INDEX_DIRECTORY = "index";
-    private static String CRAN_QUERY = "cran-data/cran.qry";
+    private static String QUERY_DATA = "data/Assignment Two/Queries/topics";
     private static String RESULT_DIRECTORY = "results/query-results.txt";
 
-    public static void search(int scoringType, Analyzer analyzer) throws Exception
+    public static List<Query> search(int scoringType, Analyzer analyzer) throws Exception
 
     {
-        DirectoryReader ireader = DirectoryReader.open(FSDirectory.open(Paths.get(INDEX_DIRECTORY)));
+        // TODO : Basic multi field parser used for now. Need to test and refine parser used!
+        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text", "pub", "profile", "header"}, analyzer);
 
-        // Use IndexSearcher to retrieve some arbitrary document from the index
-        IndexSearcher isearcher = new IndexSearcher(ireader);
-
-        // Sets the scoring as the same that was used to index the documents
-        switch(scoringType) {
-            case 1:
-                isearcher.setSimilarity(new BM25Similarity());
-                break;
-            case 2:
-                isearcher.setSimilarity(new ClassicSimilarity());
-                break;
-            case 3:
-                isearcher.setSimilarity(new BooleanSimilarity());
-                break;
-            case 4:
-                isearcher.setSimilarity(new LMDirichletSimilarity());
-                break;
-        }
-
-
-        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "author", "bib", "content"}, analyzer);
-
+        List<Query> queries = new ArrayList<Query>();
         try {
             System.out.println("Starting index querying...");
-            BufferedReader queryReader = new BufferedReader(new FileReader(CRAN_QUERY));
+            BufferedReader queryReader = new BufferedReader(new FileReader(QUERY_DATA));
             BufferedWriter queryWriter = new BufferedWriter(new FileWriter(RESULT_DIRECTORY));
             String currLine = queryReader.readLine();
             int queryNumber = 0;
+            // loops through entire topic file generating and querying from topics
             while(currLine != null) {
                 queryNumber++;
+                String num = "";
+                String title = "";
+                String description = "";
+                String narrative = "";
                 String query = "";
 
-                // checking for new document
-                if (currLine.startsWith(".I")) {
+                // creates query from topic
+                if (currLine.startsWith("<top>")) {
                     currLine = queryReader.readLine();
                     String currAtr = "";
-                    while (currLine != null) {
-                        if (currLine.startsWith(".W")) {
-                            currAtr = currLine.substring(0,2);
+                    while (!currLine.startsWith("</top>")) {
+                        if(currLine.equals("")) {
+                            currAtr = "";
                             currLine = queryReader.readLine();
-                        } else if (currLine.startsWith(".I")) {
+                        }
+                        if (currLine.startsWith("</top")) {
                             break;
                         }
-                        if (!currLine.substring(0,1).equals(" ")) {
-                            currLine = " " + currLine;
+                        if (currLine.startsWith("<num>")) {
+                            num = currLine.substring(currLine.length()-4).trim();
+                        } else if (currLine.startsWith("<title>")) {
+                            title = currLine.substring(8).trim();
+                        } else if (currLine.startsWith("<desc>") || currLine.startsWith("<narr")) {
+                            currAtr = currLine.substring(0,2);
+                            currLine = queryReader.readLine();
                         }
-                        if (currAtr.equals(".W")) {
-                            query = query + currLine;
+                        if (currAtr.equals("<d")) {
+                            description = description + " " + currLine;
+                        } else if (currAtr.equals("<n")) {
+                            narrative = narrative + " " + currLine;
                         }
                         currLine = queryReader.readLine();
                     }
+                    description = description.trim();
+                    narrative = narrative.trim();
                 }
-                query = query.trim();
+                // do this twice to skip blank line between topics
+                currLine = queryReader.readLine();
+                currLine = queryReader.readLine();
+
+                // query composition from topic fields
+                query = (title+ "\n" + narrative + "\n" + description).trim();
                 query = query.replace("?", "");
                 Query queryQ = queryParser.parse(QueryParser.escape(query));
-                ScoreDoc[] hits = isearcher.search(queryQ, 50).scoreDocs;
-
-                for (int i =0; i < hits.length; i++) {
-                    queryWriter.write(queryNumber + " Q0 " + isearcher.doc(hits[i].doc).get("id") + " " + i +
-                            " " + hits[i].score + " STANDARD");
-                    queryWriter.newLine();
-                }
-
+                queries.add(queryQ);
             }
             queryReader.close();
             queryWriter.close();
-            System.out.println("FINISHED: Queries, total queries performed is " + queryNumber);
+            System.out.println("FINISHED: Total queries created is " + queryNumber);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return queries;
     }
 }

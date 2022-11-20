@@ -21,19 +21,21 @@ import org.apache.lucene.store.FSDirectory;
 public class Searcher {
     private Analyzer analyzer;
     private Similarity similarity;
-//    private QueryParser parser;
+    private List<Query> queries;
+    private MultiFieldQueryParser multiParser;
     private String runName;
     private IndexSearcher searcher;
     private static final String PATH_OF_RESULTS = "data/answer.test";   // directory of the result file
     private static final String PATH_OF_INDEX = "index/"; // directory of the index file
 
-    public Searcher(int scoringType, Analyzer analyzer) {
+    public Searcher(int scoringType, Analyzer analyzer, List<Query> queries) {
         System.out.println("Begin Creating Searcher");
         // Retrival model settings
         this.analyzer = analyzer;
         this.similarity = getSimilarity(scoringType);
-        // TODO: PARASER CAN DIVIDE INTO DEFAULT AND MULTI PARTS
-//        this.parser = getParser("SINGLE");
+        this.queries = queries;
+        // BASIC MULTI PARSER FOR NOW
+        this.multiParser = new MultiFieldQueryParser(new String[]{"title", "text", "pub", "profile", "header"}, analyzer);
     }
 
 
@@ -78,25 +80,7 @@ public class Searcher {
         }
         return similarity;
     }
-    //TODO: Based on the query extract part, get the query,
-    //  we can decide if we need to add the multi/singel paraser logic to the model
-//    private QueryParser getParser(String paraseMode) {
-//        // Use single field to set up the query parser -- "content" field
-//        if (paraseMode.equals("SINGLE")) {
-//            return new QueryParser("content", this.analyzer);
-//        } else {
-//            // Use multiple field to set up the query parser
-//            return new MultiFieldQueryParser(
-//                    new String[] {"title", "content", "subject", "location"}, this.analyzer,
-//                    new HashMap<String, Float>() {{
-//                        put("title", 0.02f);
-//                        put("content", 1.0f);
-//                        put("subject", 0.02f);
-//                        put("location", 0.04f);
-//                    }}
-//            );
-//        }
-//    }
+
 
     public void scoreQuery() {
             try {
@@ -114,9 +98,9 @@ public class Searcher {
             Writer writer = new FileWriter(new File(PATH_OF_RESULTS));
 
             //TODO: Get a list of the search queries
-            List<Query> queries = new ArrayList<Query>();
+            List<Query> queries = this.queries;
 
-            // Write the search results for each queriy to file
+            // Write the search results for each query to file
             int num = 0;
             for (Query query : queries) {
                 List<Result> results = getResults(num++, query);
