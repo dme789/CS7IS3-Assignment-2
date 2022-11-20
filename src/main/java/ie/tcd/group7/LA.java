@@ -79,27 +79,18 @@ public class LA {
             String id = element.getElementsByTag("DOCNO").text();
             document.add(new StringField("id", id, Field.Store.YES));
 
-            /* 
+            String date = element.getElementsByTag("DATE").text();
+            document.add(new StringField("date", date, Field.Store.YES));
 
-            String parent = element.getElementsByTag("PARENT").text();
-            document.add(new StringField("parent", parent, Field.Store.YES));
+            String section = element.getElementsByTag("SECTION").text();
+            document.add(new StringField("section", section, Field.Store.YES));
 
-            String profile = element.getElementsByTag("PROFILE").text();
-            document.add(new TextField("profile", profile, Field.Store.YES));
+            String graphic = element.getElementsByTag("GRAPHIC").text();
+            document.add(new StringField("graphic", graphic, Field.Store.YES));
+            
+            String type = element.getElementsByTag("TYPE").text();
+            document.add(new StringField("type", type, Field.Store.YES));
 
-            String signer = element.getElementsByTag("SIGNER").text();
-            document.add(new TextField("SIGNER", signer, Field.Store.YES));
-
-            String signjob = element.getElementsByTag("signjob").text();
-            document.add(new TextField("signjob", signjob , Field.Store.YES)); 
-
-            String FRfiling = element.getElementsByTag("FRFILING").text();
-            document.add(new TextField("FRfiling", FRfiling, Field.Store.YES));
-
-            String billing = element.getElementsByTag("BILLING").text();
-            document.add(new TextField("billing", billing, Field.Store.YES));
-
-*/
             la_data.add(document);
 
         }
