@@ -51,18 +51,14 @@ Document Type:FOREIGN MEDIA NOTE--FB PN 94-028
      */
 
     private final static File FBIS_DIR = new File("data/Assignment Two/Documents/fbis");
-    ArrayList<Document> fbis_data = new ArrayList();
 
-    public ArrayList<Document> parse_FBIS() throws IOException {
-        //ArrayList<Document> 
-        access_directory_FBIS(FBIS_DIR.getAbsolutePath());
-
-        return fbis_data;
+    public void parse_FBIS(IndexWriter iwriter) throws IOException {
+        System.out.println("Starting indexing - FBIS");
+        access_directory_FBIS(FBIS_DIR.getAbsolutePath(), iwriter);
+        System.out.println("Indexed Successfully - FBIS");
     }
 
-    public void parse_file_FBIS(String file) throws IOException {
-        //ArrayList<Document> ft_data = new ArrayList();
-
+    public void parse_file_FBIS(String file, IndexWriter iwriter) throws IOException {
         //Path path = Paths.get("data/Assignment Two/Assignment Two/ft/ft911/");
         //byte[] fileBytes = Files.readAllBytes(path);
         //String fileString = new String(fileBytes, StandardCharsets.ISO_8859_1);
@@ -95,17 +91,13 @@ Document Type:FOREIGN MEDIA NOTE--FB PN 94-028
             document.add(new TextField("text", text, Field.Store.YES));
 
             String date = element.getElementsByTag("DATE1").text();
-            document.add(new TextField("date", date , Field.Store.YES)); 
+            document.add(new TextField("date", date , Field.Store.YES));
 
-
-            fbis_data.add(document);
-
+            iwriter.addDocument(document);
         }
-        //return ft_data;
-
     }
 
-    public void access_directory_FBIS(String filepath) throws IOException {
+    public void access_directory_FBIS(String filepath, IndexWriter iwriter) throws IOException {
 
         // creates file at filepath
         File file_dir = new File(filepath);
@@ -116,12 +108,12 @@ Document Type:FOREIGN MEDIA NOTE--FB PN 94-028
             for (File file : dir_list) {
                 //if still in a folder, keep going deeper untit the directory 
                 if (file.isDirectory()) {
-                    access_directory_FBIS(file.getAbsolutePath());
+                    access_directory_FBIS(file.getAbsolutePath(), iwriter);
                 }
                 else{
                     if(!file.getName().equals("readchg") && !file.getName().equals("readmefb")){
                         //when you have access to file, parse it with parse function
-                        parse_file_FBIS(file.getAbsolutePath());
+                        parse_file_FBIS(file.getAbsolutePath(), iwriter);
                     }
                 }
 
