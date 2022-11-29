@@ -45,18 +45,14 @@ public class LA {
      */
 
     private final static File LA_DIR = new File("data/Assignment Two/Documents/latimes");
-    ArrayList<Document> la_data = new ArrayList();
 
-    public ArrayList<Document> parse_LA() throws IOException {
-        //ArrayList<Document> 
-        access_directory_LA(LA_DIR.getAbsolutePath());
-
-        return la_data;
+    public void parse_LA(IndexWriter iwriter) throws IOException {
+        System.out.println("Starting indexing - LA Times");
+        access_directory_LA(LA_DIR.getAbsolutePath(), iwriter);
+        System.out.println("Indexed Successfully - LA Times");
     }
 
-    public void parse_file_LA(String file) throws IOException {
-        //ArrayList<Document> ft_data = new ArrayList();
-
+    public void parse_file_LA(String file, IndexWriter iwriter) throws IOException {
         //Path path = Paths.get("data/Assignment Two/Assignment Two/ft/ft911/");
         //byte[] fileBytes = Files.readAllBytes(path);
         //String fileString = new String(fileBytes, StandardCharsets.ISO_8859_1);
@@ -98,16 +94,13 @@ public class LA {
 
             String billing = element.getElementsByTag("BILLING").text();
             document.add(new TextField("billing", billing, Field.Store.YES));
+             */
 
-*/
-            la_data.add(document);
-
+            iwriter.addDocument(document);
         }
-        //return ft_data;
-
     }
 
-    public void access_directory_LA(String filepath) throws IOException {
+    public void access_directory_LA(String filepath, IndexWriter iwriter) throws IOException {
 
         // creates file at filepath
         File file_dir = new File(filepath);
@@ -118,12 +111,12 @@ public class LA {
             for (File file : dir_list) {
                 //if still in a folder, keep going deeper untit the directory 
                 if (file.isDirectory()) {
-                    access_directory_LA(file.getAbsolutePath());
+                    access_directory_LA(file.getAbsolutePath(), iwriter);
                 }
                 else{
                     if(!file.getName().equals("readchg") && !file.getName().equals("readmela")){
                         //when you have access to file, parse it with parse function
-                        parse_file_LA(file.getAbsolutePath());
+                        parse_file_LA(file.getAbsolutePath(), iwriter);
 
                     }
                 }

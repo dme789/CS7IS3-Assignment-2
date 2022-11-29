@@ -56,61 +56,38 @@ public class CreateIndex {
 
         try {
             System.out.println("Starting index processing...");
-            int docNumbers = 0;
 
 // ----------------------Parsing Financial Times data----------------------------
 
             // FT class to access functions in FT.java
-            FT data = new FT();
+            FT FTdata = new FT();
             // parse_file function in FT.java splits the doc into fields.
-            ArrayList<Document> documents = data.parse_FT();
-            // for loop to parse every occurence of DOC tag, not just one.
-            for (Document document : documents) {
-                iwriter.addDocument(document);
-                docNumbers++;
-                // System.out.println(document);
-            }
+            // Each document is indexed once document is complete
+            FTdata.parse_FT(iwriter);
             
 
 // ----------------------Parsing Federal Register Data----------------------------
 
             FR FRdata = new FR();
             // parse_file function in FT.java splits the doc into fields.
-            ArrayList<Document> FRdocuments = FRdata.parse_FR();
-            // for loop to parse every occurence of DOC tag, not just one.
-            for (Document FRdocument : FRdocuments) {
-                iwriter.addDocument(FRdocument);
-                docNumbers++;
-                //System.out.println(FRdocument);
-            }
+            // Each document is indexed once document is complete
+            FRdata.parse_FR(iwriter);
 
 // ----------------------Parsing FBIS data----------------------------
 
             FBIS FBISdata = new FBIS();
             // parse_file function in FT.java splits the doc into fields.
-            ArrayList<Document> FBISdocuments = FBISdata.parse_FBIS();
-            // for loop to parse every occurence of DOC tag, not just one.
-            for (Document FBISdocument : FBISdocuments) {
-                iwriter.addDocument(FBISdocument);
-                docNumbers++;
-                //System.out.println(FBISdocument);
-            }
+            // Each document is indexed once document is complete
+            FBISdata.parse_FBIS(iwriter);
             
 
 // ----------------------Parsing LA times data----------------------------
 
             LA LAdata = new LA();
             // parse_file function in FT.java splits the doc into fields.
-            ArrayList<Document> LAdocuments = LAdata.parse_LA();
-            // for loop to parse every occurence of DOC tag, not just one.
-            for (Document LAdocument : LAdocuments) {
-                iwriter.addDocument(LAdocument);
-                docNumbers++;
-                //System.out.println(LAdocument);
-            }
+            LAdata.parse_LA(iwriter);
 
-            System.out.println("FINISHED: Indexing, total docs added is " + docNumbers);
-
+            System.out.println("FINISHED: Indexing!");
         } catch (Exception e) {
             e.printStackTrace();
         }
