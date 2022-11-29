@@ -36,18 +36,14 @@ import java.util.List;
 
 public class FT {
     private final static File FT_DIR = new File("data/Assignment Two/Documents/ft");
-    ArrayList<Document> ft_data = new ArrayList();
 
-    public ArrayList<Document> parse_FT() throws IOException {
-        //ArrayList<Document> 
-        access_directory(FT_DIR.getAbsolutePath());
-
-        return ft_data;
+    public void parse_FT(IndexWriter iwriter) throws IOException {
+        System.out.println("Starting indexing - Financial Times");
+        access_directory(FT_DIR.getAbsolutePath(), iwriter);
+        System.out.println("Indexed Successfully - Financial Times");
     }
 
-    public void parse_file(String file) throws IOException {
-        //ArrayList<Document> ft_data = new ArrayList();
-
+    public void parse_file(String file, IndexWriter iwriter) throws IOException {
         //Path path = Paths.get("data/Assignment Two/Assignment Two/ft/ft911/");
         //byte[] fileBytes = Files.readAllBytes(path);
         //String fileString = new String(fileBytes, StandardCharsets.ISO_8859_1);
@@ -88,14 +84,11 @@ public class FT {
             String page = element.getElementsByTag("PAGE").text();
             document.add(new TextField("page", page, Field.Store.YES));
 
-            ft_data.add(document);
-
+            iwriter.addDocument(document);
         }
-        //return ft_data;
-
     }
 
-    public void access_directory(String filepath) throws IOException {
+    public void access_directory(String filepath, IndexWriter iwriter) throws IOException {
 
         // creates file at filepath
         File file_dir = new File(filepath);
@@ -106,12 +99,12 @@ public class FT {
             for (File file : dir_list) {
                 //if still in a folder, keep going deeper untit the directory 
                 if (file.isDirectory()) {
-                    access_directory(file.getAbsolutePath());
+                    access_directory(file.getAbsolutePath(), iwriter);
                 }
                 else{
                     if(!file.getName().equals("readmeft") && !file.getName().equals("readfrcg")){
                         //when you have access to file, parse it with parse function
-                        parse_file(file.getAbsolutePath());
+                        parse_file(file.getAbsolutePath(), iwriter);
 
                     }
                 }

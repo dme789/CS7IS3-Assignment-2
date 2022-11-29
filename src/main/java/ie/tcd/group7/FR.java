@@ -45,18 +45,14 @@ public class FR {
      */
 
     private final static File FR_DIR = new File("data/Assignment Two/Documents/fr94");
-    ArrayList<Document> fr_data = new ArrayList();
 
-    public ArrayList<Document> parse_FR() throws IOException {
-        //ArrayList<Document> 
-        access_directory_FR(FR_DIR.getAbsolutePath());
-
-        return fr_data;
+    public void parse_FR(IndexWriter iwriter) throws IOException {
+        System.out.println("Starting indexing - Federal Register");
+        access_directory_FR(FR_DIR.getAbsolutePath(), iwriter);
+        System.out.println("Indexed Successfully - Federal Register");
     }
 
-    public void parse_file_FR(String file) throws IOException {
-        //ArrayList<Document> ft_data = new ArrayList();
-
+    public void parse_file_FR(String file, IndexWriter iwriter) throws IOException {
         //Path path = Paths.get("data/Assignment Two/Assignment Two/ft/ft911/");
         //byte[] fileBytes = Files.readAllBytes(path);
         //String fileString = new String(fileBytes, StandardCharsets.ISO_8859_1);
@@ -97,15 +93,11 @@ public class FR {
             String billing = element.getElementsByTag("BILLING").text();
             document.add(new TextField("billing", billing, Field.Store.YES));
 
-
-            fr_data.add(document);
-
+            iwriter.addDocument(document);
         }
-        //return ft_data;
-
     }
 
-    public void access_directory_FR(String filepath) throws IOException {
+    public void access_directory_FR(String filepath, IndexWriter iwriter) throws IOException {
 
         // creates file at filepath
         File file_dir = new File(filepath);
@@ -116,12 +108,12 @@ public class FR {
             for (File file : dir_list) {
                 //if still in a folder, keep going deeper untit the directory 
                 if (file.isDirectory()) {
-                    access_directory_FR(file.getAbsolutePath());
+                    access_directory_FR(file.getAbsolutePath(), iwriter);
                 }
                 else{
                     if(!file.getName().equals("readmefr") && !file.getName().equals("readfrcg") && !file.getName().equals(".DS_Store")){
                         //when you have access to file, parse it with parse function
-                        parse_file_FR(file.getAbsolutePath());
+                        parse_file_FR(file.getAbsolutePath(), iwriter);
 
                     }
                 }
