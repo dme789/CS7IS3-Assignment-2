@@ -19,8 +19,15 @@ mvn package
 Upon success of the build, a jar will be built. To run the resulting
 program, run the following command:
 ```bash
-java -jar target/Assignment1-1.0.jar
+java -jar target/Assignment2-1.0.jar
 ```
 
-## Result
-text
+## Result (trec_eval)
+To return the Mean Average Precision (MAP) score, run the following command:
+```bash
+trec_eval/trec_eval -m map QRelsPath data/answer.test
+```
+To return the Recall score, run the following command:
+```bash
+trec_eval-9.0.7/trec_eval -m recall QRelsPath data/answer.test
+```

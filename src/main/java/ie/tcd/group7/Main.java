@@ -3,9 +3,11 @@ package ie.tcd.group7;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.search.Query;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main
@@ -20,10 +22,9 @@ public class Main
         int scoringType = CreateIndex.createIndex(analyzer);
 
         // query index
-        Searcher searcher = new Searcher(scoringType, analyzer);
+        List<Query> queries = QueryIndex.search(scoringType, analyzer);
+        Searcher searcher = new Searcher(scoringType, analyzer, queries);
         searcher.scoreQuery();
-        
-        QueryIndex.search(scoringType, analyzer);
 
         System.out.println("PROGRAM COMPLETED");
     }

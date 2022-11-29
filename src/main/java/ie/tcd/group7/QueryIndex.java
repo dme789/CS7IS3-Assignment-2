@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 
@@ -29,33 +31,13 @@ public class QueryIndex {
     private static String QUERY_DATA = "data/Assignment Two/Queries/topics";
     private static String RESULT_DIRECTORY = "results/query-results.txt";
 
-    public static void search(int scoringType, Analyzer analyzer) throws Exception
+    public static List<Query> search(int scoringType, Analyzer analyzer) throws Exception
 
     {
-        DirectoryReader ireader = DirectoryReader.open(FSDirectory.open(Paths.get(INDEX_DIRECTORY)));
-
-        // Use IndexSearcher to retrieve some arbitrary document from the index
-        IndexSearcher isearcher = new IndexSearcher(ireader);
-
-        // Sets the scoring as the same that was used to index the documents
-        switch(scoringType) {
-            case 1:
-                isearcher.setSimilarity(new BM25Similarity());
-                break;
-            case 2:
-                isearcher.setSimilarity(new ClassicSimilarity());
-                break;
-            case 3:
-                isearcher.setSimilarity(new BooleanSimilarity());
-                break;
-            case 4:
-                isearcher.setSimilarity(new LMDirichletSimilarity());
-                break;
-        }
-
-
+        // TODO : Basic multi field parser used for now. Need to test and refine parser used!
         MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text", "pub", "profile", "header"}, analyzer);
 
+        List<Query> queries = new ArrayList<Query>();
         try {
             System.out.println("Starting index querying...");
             BufferedReader queryReader = new BufferedReader(new FileReader(QUERY_DATA));
@@ -109,22 +91,15 @@ public class QueryIndex {
                 query = (title+ "\n" + narrative + "\n" + description).trim();
                 query = query.replace("?", "");
                 Query queryQ = queryParser.parse(QueryParser.escape(query));
-                ScoreDoc[] hits = isearcher.search(queryQ, 1000).scoreDocs;
-
-                // writing results of query
-                for (int i =0; i < hits.length; i++) {
-                    queryWriter.write(num + " Q0 " + isearcher.doc(hits[i].doc).get("id") + " " + i +
-                            " " + hits[i].score + " STANDARD");
-                    queryWriter.newLine();
-                }
-
+                queries.add(queryQ);
             }
             queryReader.close();
             queryWriter.close();
-            System.out.println("FINISHED: Queries, total queries performed is " + queryNumber);
+            System.out.println("FINISHED: Total queries created is " + queryNumber);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return queries;
     }
 }
