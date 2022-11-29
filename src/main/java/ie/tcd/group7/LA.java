@@ -80,8 +80,7 @@ public class LA {
 
             String section = element.getElementsByTag("SECTION").text();
             document.add(new StringField("section", section, Field.Store.YES));
-
-            iwriter.addDocument(document);
+            
             String graphic = element.getElementsByTag("GRAPHIC").text();
             document.add(new StringField("graphic", graphic, Field.Store.YES));
             
