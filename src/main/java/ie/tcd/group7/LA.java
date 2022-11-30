@@ -76,17 +76,16 @@ public class LA {
             document.add(new StringField("id", id, Field.Store.YES));
 
             String date = element.getElementsByTag("DATE").text();
-            System.out.println(date);
-            document.add(new StringField("date", date, Field.Store.YES));
+            document.add(new TextField("date", date, Field.Store.YES));
 
             String section = element.getElementsByTag("SECTION").text();
-            document.add(new StringField("section", section, Field.Store.YES));
+            document.add(new TextField("section", section, Field.Store.YES));
 
             String graphic = element.getElementsByTag("GRAPHIC").text();
-            document.add(new StringField("graphic", graphic, Field.Store.YES));
+            document.add(new TextField("graphic", graphic, Field.Store.YES));
             
             String type = element.getElementsByTag("TYPE").text();
-            document.add(new StringField("type", type, Field.Store.YES));
+            document.add(new TextField("type", type, Field.Store.YES));
 
             iwriter.addDocument(document);
         }
