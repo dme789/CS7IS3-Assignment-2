@@ -35,15 +35,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LA {
-
-    /*File Structure:
-     * <DOC>
-    <DOCNO> FR940104-0-00001 </DOCNO>
-    <PARENT> FR940104-0-00001 </PARENT>
-    <TEXT>blah blah blah </TEXT>
-    </DOC>
-     */
-
     private final static File LA_DIR = new File("data/Assignment Two/Documents/latimes");
 
     public void parse_LA(IndexWriter iwriter) throws IOException {
