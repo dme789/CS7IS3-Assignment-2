@@ -78,20 +78,68 @@ public class FR {
             String parent = element.getElementsByTag("PARENT").text();
             document.add(new StringField("parent", parent, Field.Store.YES));
 
-            String profile = element.getElementsByTag("PROFILE").text();
-            document.add(new TextField("profile", profile, Field.Store.YES));
+            String text = element.getElementsByTag("TEXT").text();
+            document.add(new StringField("text", text, Field.Store.YES));
+
+            String USdept= element.getElementsByTag("USDEPT").text();
+            document.add(new TextField("USdept", USdept, Field.Store.YES));
+
+            String agency = element.getElementsByTag("AGENCY").text();
+            document.add(new StringField("agency", agency, Field.Store.YES));
+
+            String USBureau = element.getElementsByTag("USBUREAU").text();
+            document.add(new TextField("USBureau", USBureau, Field.Store.YES));
+
+            String doctitle = element.getElementsByTag("DOCTITILE").text();
+            document.add(new TextField("doctitle", doctitle, Field.Store.YES));
+
+            String address = element.getElementsByTag("ADDRESS").text();
+            document.add(new TextField("address", address, Field.Store.YES));
+
+            String further = element.getElementsByTag("FURTHER").text();
+            document.add(new TextField("further", further, Field.Store.YES));
+
+            String summary = element.getElementsByTag("SUMMARY").text();
+            document.add(new TextField("summary", summary, Field.Store.YES));
+
+            String action = element.getElementsByTag("ACTION").text();
+            document.add(new TextField("action", action, Field.Store.YES));
 
             String signer = element.getElementsByTag("SIGNER").text();
             document.add(new TextField("SIGNER", signer, Field.Store.YES));
 
-            String signjob = element.getElementsByTag("signjob").text();
+            String signjob = element.getElementsByTag("SIGNJOB").text();
             document.add(new TextField("signjob", signjob , Field.Store.YES)); 
+
+            String supplem = element.getElementsByTag("SUPPLEM").text();
+            document.add(new TextField("supplem", supplem, Field.Store.YES));
 
             String FRfiling = element.getElementsByTag("FRFILING").text();
             document.add(new TextField("FRfiling", FRfiling, Field.Store.YES));
 
             String billing = element.getElementsByTag("BILLING").text();
             document.add(new TextField("billing", billing, Field.Store.YES));
+
+            String date = element.getElementsByTag("DATE").text();
+            document.add(new TextField("date", date, Field.Store.YES));
+
+            String CFRNO = element.getElementsByTag("CFRNO").text();
+            document.add(new TextField("CFRNO", CFRNO, Field.Store.YES));
+
+            String RINDOCK = element.getElementsByTag("RINDOCK").text();
+            document.add(new TextField("RINDOCK", RINDOCK, Field.Store.YES));
+
+            String table = element.getElementsByTag("TABLE").text();
+            document.add(new TextField("table", table, Field.Store.YES));
+
+            String footnote = element.getElementsByTag("FOOTNOTE").text();
+            document.add(new TextField("footnote", footnote, Field.Store.YES));
+
+            String footcite = element.getElementsByTag("FOOTCITE").text();
+            document.add(new TextField("footcite", footcite, Field.Store.YES));
+
+            String footname = element.getElementsByTag("FOOTNAME").text();
+            document.add(new TextField("footname", footname, Field.Store.YES));
 
             iwriter.addDocument(document);
         }
