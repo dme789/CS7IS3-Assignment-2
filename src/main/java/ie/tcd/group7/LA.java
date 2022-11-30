@@ -74,9 +74,27 @@ public class LA {
 
             String graphic = element.getElementsByTag("GRAPHIC").text();
             document.add(new TextField("graphic", graphic, Field.Store.YES));
+
+            String text = element.getElementsByTag("TEXT").text();
+            document.add(new TextField("text", text, Field.Store.YES));
             
             String type = element.getElementsByTag("TYPE").text();
             document.add(new TextField("type", type, Field.Store.YES));
+
+            String headline = element.getElementsByTag("HEADLINE").text();
+            document.add(new TextField("headline", headline, Field.Store.YES));
+
+            String byline = element.getElementsByTag("BYLINE").text();
+            document.add(new TextField("byline", byline, Field.Store.YES));
+
+            String correction = element.getElementsByTag("CORRECTION").text();
+            document.add(new TextField("correction", correction, Field.Store.YES));
+
+            String correctionDate = element.getElementsByTag("CORRECTION-DATE").text();
+            document.add(new TextField("correction-date", correctionDate, Field.Store.YES));
+
+            String dateline = element.getElementsByTag("DATELINE").text();
+            document.add(new TextField("dateline", dateline, Field.Store.YES));
 
             iwriter.addDocument(document);
         }
