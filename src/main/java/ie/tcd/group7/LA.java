@@ -76,6 +76,7 @@ public class LA {
             document.add(new StringField("id", id, Field.Store.YES));
 
             String date = element.getElementsByTag("DATE").text();
+            System.out.println(date);
             document.add(new StringField("date", date, Field.Store.YES));
 
             String section = element.getElementsByTag("SECTION").text();
