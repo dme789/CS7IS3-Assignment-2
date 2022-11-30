@@ -66,14 +66,14 @@ public class FT {
             String id = element.getElementsByTag("DOCNO").text();
             document.add(new StringField("id", id, Field.Store.YES));
 
-            String headline = element.getElementsByTag("HEADLINE").text();
-            document.add(new StringField("title", headline, Field.Store.YES));
-
             String profile = element.getElementsByTag("PROFILE").text();
             document.add(new TextField("profile", profile, Field.Store.YES));
 
             String date = element.getElementsByTag("DATE").text();
             document.add(new TextField("date", date, Field.Store.YES));
+            
+            String headline = element.getElementsByTag("HEADLINE").text();
+            document.add(new StringField("title", headline, Field.Store.YES));
 
             String text = element.getElementsByTag("TEXT").text();
             document.add(new TextField("text", text, Field.Store.YES));

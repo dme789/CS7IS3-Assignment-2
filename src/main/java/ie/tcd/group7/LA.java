@@ -80,9 +80,6 @@ public class LA {
 
             String dateline = element.getElementsByTag("DATELINE").text();
             document.add(new TextField("dateline", dateline, Field.Store.YES));     
-            
-            String doc = element.getElementsByTag("DOC").text();
-            document.add(new TextField("doc", doc, Field.Store.YES));
 
             String docno = element.getElementsByTag("DOCNO").text();
             document.add(new StringField("docno", docno, Field.Store.YES));

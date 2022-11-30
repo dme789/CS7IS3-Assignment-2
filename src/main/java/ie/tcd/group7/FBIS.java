@@ -71,9 +71,6 @@ public class FBIS {
             String date = element.getElementsByTag("DATE1").text();
             document.add(new TextField("date", date, Field.Store.YES));
 
-            String doc = element.getElementsByTag("DOC").text();
-            document.add(new TextField("doc", doc, Field.Store.YES));
-
             String id = element.getElementsByTag("DOCNO").text();
             document.add(new StringField("id", id, Field.Store.YES));
 
