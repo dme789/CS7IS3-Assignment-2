@@ -75,7 +75,7 @@ public class FBIS {
             document.add(new StringField("id", id, Field.Store.YES));
 
             // Gives detail on location and date: Potentially useful
-            String F = element.getElementsByTag("F").text();
+            String F = element.getElementsByTag("F ...").text();
             document.add(new TextField("F", F, Field.Store.YES));
 
             // Headers: Useful 
