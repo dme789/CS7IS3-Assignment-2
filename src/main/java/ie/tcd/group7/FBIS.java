@@ -62,62 +62,71 @@ public class FBIS {
             
             Document document = new Document();
 
+            // Abstract: Useful
             String abs = element.getElementsByTag("ABS").text();
-            document.add(new StringField("abs", abs, Field.Store.YES));
+            document.add(new TextField("abs", abs, Field.Store.YES));
 
-            String AU = element.getElementsByTag("AU").text();
-            document.add(new StringField("AU", AU, Field.Store.YES));
-
+            // Date: Useful
             String date = element.getElementsByTag("DATE1").text();
             document.add(new TextField("date", date, Field.Store.YES));
 
+            // ID: Useful
             String id = element.getElementsByTag("DOCNO").text();
             document.add(new StringField("id", id, Field.Store.YES));
 
-            String F = element.getElementsByTag("F ...").text();
-            document.add(new StringField("F", F, Field.Store.YES));
+            // Gives detail on location and date: Potentially useful
+            String F = element.getElementsByTag("F").text();
+            document.add(new TextField("F", F, Field.Store.YES));
 
-            String fig = element.getElementsByTag("FIG ...").text();
-            document.add(new StringField("fig", fig, Field.Store.YES));
-
+            // Headers: Useful 
             String H1 = element.getElementsByTag("H1").text();
-            document.add(new StringField("H1", H1, Field.Store.YES));
+            document.add(new TextField("H1", H1, Field.Store.YES));
 
             String H2 = element.getElementsByTag("H2").text();
-            document.add(new StringField("H2", H2, Field.Store.YES));
+            document.add(new TextField("H2", H2, Field.Store.YES));
 
             String H3 = element.getElementsByTag("H3").text();
-            document.add(new StringField("H3", H3, Field.Store.YES));
+            document.add(new TextField("H3", H3, Field.Store.YES));
             
             String H4 = element.getElementsByTag("H4").text();
-            document.add(new StringField("H4", H4, Field.Store.YES));
+            document.add(new TextField("H4", H4, Field.Store.YES));
 
             String H5 = element.getElementsByTag("H5").text();
-            document.add(new StringField("H5", H5, Field.Store.YES));
+            document.add(new TextField("H5", H5, Field.Store.YES));
 
             String H6 = element.getElementsByTag("H6").text();
-            document.add(new StringField("H6", H6, Field.Store.YES));
+            document.add(new TextField("H6", H6, Field.Store.YES));
 
             String H7 = element.getElementsByTag("H7").text();
-            document.add(new StringField("H7", H7, Field.Store.YES));
+            document.add(new TextField("H7", H7, Field.Store.YES));
         
             String H8 = element.getElementsByTag("H8").text();
-            document.add(new StringField("H8", H8, Field.Store.YES));
-
-            String header = element.getElementsByTag("HEADER").text();
-            document.add(new TextField("header", header, Field.Store.YES));
+            document.add(new TextField("H8", H8, Field.Store.YES));
 
             String HT = element.getElementsByTag("HT").text();
-            document.add(new StringField("HT", HT, Field.Store.YES));
+            document.add(new TextField("HT", HT, Field.Store.YES));
 
             String text = element.getElementsByTag("TEXT").text();
             document.add(new TextField("text", text, Field.Store.YES));
 
-            String TR = element.getElementsByTag("TR").text();
-            document.add(new StringField("TR", TR, Field.Store.YES));
+            // Another ID
+            // String AU = element.getElementsByTag("AU").text();
+            // document.add(new StringField("AU", AU, Field.Store.YES));
+            
+            // All the same
+            // String header = element.getElementsByTag("HEADER").text();
+            // document.add(new StringField("header", header, Field.Store.YES));
 
-            String TXT5 = element.getElementsByTag("TXT5").text();
-            document.add(new StringField("TXT5", TXT5, Field.Store.YES));
+            // These don't actually seem to be appear anywhere in the docs 
+            // String TR = element.getElementsByTag("TR").text();
+            // document.add(new StringField("TR", TR, Field.Store.YES));
+
+            // String TXT5 = element.getElementsByTag("TXT5").text();
+            // document.add(new StringField("TXT5", TXT5, Field.Store.YES));
+
+            // Doesn't seem to come up often so not useful
+            // String fig = element.getElementsByTag("FIG ...").text();
+            // document.add(new TextField("fig", fig, Field.Store.YES));
 
 
             iwriter.addDocument(document);

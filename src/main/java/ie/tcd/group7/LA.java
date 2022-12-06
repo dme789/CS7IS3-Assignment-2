@@ -63,65 +63,85 @@ public class LA {
             Document document = new Document();
 
             // Creates a document with the fields specified to be written to an index
+            // Id: Useful
+            String id = element.getElementsByTag("DOCNO").text();
+            document.add(new StringField("docno", id, Field.Store.YES));
+
+            // Text: Useful
             String text = element.getElementsByTag("TEXT").text();
-            document.add(new StringField("text", text, Field.Store.YES));
+            document.add(new TextField("text", text, Field.Store.YES));
 
+            // Byline: Potentially useful
             String byline = element.getElementsByTag("BYLINE").text();
-            document.add(new StringField("byline", byline, Field.Store.YES));
+            document.add(new TextField("byline", byline, Field.Store.YES));
 
+            // Correction: Potentially usseful
             String correction = element.getElementsByTag("CORRECTION").text();
-            document.add(new StringField("correction", correction, Field.Store.YES));
+            document.add(new TextField("correction", correction, Field.Store.YES));
 
+            // Correction Date: Probably not useful
             String correction_date = element.getElementsByTag("CORRECTION-DATE").text();
-            document.add(new StringField("correction_date", correction_date, Field.Store.YES));
+            document.add(new TextField("correction_date", correction_date, Field.Store.YES));
 
+            // Date: Useful
             String date = element.getElementsByTag("DATE").text();
             document.add(new TextField("date", date, Field.Store.YES));
 
+            // Location: Potentially useful
             String dateline = element.getElementsByTag("DATELINE").text();
             document.add(new TextField("dateline", dateline, Field.Store.YES));     
 
-            String docno = element.getElementsByTag("DOCNO").text();
-            document.add(new StringField("docno", docno, Field.Store.YES));
-
-            String id = element.getElementsByTag("DOCID").text();
-            document.add(new StringField("id", id, Field.Store.YES));
-
+            // Graphic details: Potentially useful
             String graphic = element.getElementsByTag("GRAPHIC").text();
             document.add(new TextField("graphic", graphic, Field.Store.YES));
 
+            // Headline: Useful
             String headline = element.getElementsByTag("HEADLINE").text();
             document.add(new TextField("headline", headline, Field.Store.YES));
-           
-            String length = element.getElementsByTag("LENGTH").text();
-            document.add(new TextField("length", length, Field.Store.YES));
 
+            // Section of book: Probably not useful
             String section = element.getElementsByTag("SECTION").text();
             document.add(new TextField("section", section, Field.Store.YES));
 
+            // Subject of Doc: Potentially useful
             String subject = element.getElementsByTag("SUBJECT").text();
             document.add(new TextField("subject", subject, Field.Store.YES));
 
+            // Type of Doc: Probably not useful
             String type = element.getElementsByTag("TYPE").text();
             document.add(new TextField("type", type, Field.Store.YES));
-            
-            String cellrule = element.getElementsByTag("CELLRULE").text();
-            document.add(new TextField("cellrule", cellrule, Field.Store.YES));
 
-            String p = element.getElementsByTag("P").text();
-            document.add(new TextField("p", p, Field.Store.YES));
-
-            String rowrule = element.getElementsByTag("ROWRULE").text();
-            document.add(new TextField("rowrule", rowrule, Field.Store.YES));
-
+            // Table: Proabably not useful
             String table = element.getElementsByTag("TABLE ...").text();
             document.add(new TextField("table", table, Field.Store.YES));
-            
-            String tablecell = element.getElementsByTag("TABLECELL ...").text();
-            document.add(new TextField("tablecell", tablecell, Field.Store.YES));
 
+            // Row of Table: Probably not useful
             String tablerow = element.getElementsByTag("TABLEROW").text();
             document.add(new TextField("tablerow", tablerow, Field.Store.YES));
+
+            // Just the length of the Text so doubt we need this
+            // String length = element.getElementsByTag("LENGTH").text();
+            // document.add(new TextField("length", length, Field.Store.YES));
+            
+            // Nothing in these tags 
+            // String cellrule = element.getElementsByTag("CELLRULE").text();
+            // document.add(new TextField("cellrule", cellrule, Field.Store.YES));
+
+            // P tag already get unravelled 
+            // String p = element.getElementsByTag("P").text();
+            // document.add(new TextField("p", p, Field.Store.YES));
+
+            // Nothing in these tags 
+            // String rowrule = element.getElementsByTag("ROWRULE").text();
+            // document.add(new TextField("rowrule", rowrule, Field.Store.YES));
+            
+            // Don't need to get by cell, by table should be fine 
+            // String tablecell = element.getElementsByTag("TABLECELL ...").text();
+            // document.add(new TextField("tablecell", tablecell, Field.Store.YES));
+
+            // Don't need to get by cell, by table should be fine 
+            // String tablerow = element.getElementsByTag("TABLEROW").text();
+            // document.add(new TextField("tablerow", tablerow, Field.Store.YES));
 
             iwriter.addDocument(document);
         }

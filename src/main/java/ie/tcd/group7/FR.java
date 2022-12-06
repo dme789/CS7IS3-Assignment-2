@@ -75,71 +75,88 @@ public class FR {
             String id = element.getElementsByTag("DOCNO").text();
             document.add(new StringField("id", id, Field.Store.YES));
 
-            String parent = element.getElementsByTag("PARENT").text();
-            document.add(new StringField("parent", parent, Field.Store.YES));
-
+            // Text: Useful
             String text = element.getElementsByTag("TEXT").text();
-            document.add(new StringField("text", text, Field.Store.YES));
+            document.add(new TextField("text", text, Field.Store.YES));
 
+            // US Dept: Potentially useful
             String USdept= element.getElementsByTag("USDEPT").text();
             document.add(new TextField("USdept", USdept, Field.Store.YES));
 
+            // Dept Agency: Potentially useful
             String agency = element.getElementsByTag("AGENCY").text();
             document.add(new StringField("agency", agency, Field.Store.YES));
 
+            // USBureau: Potentially useful
             String USBureau = element.getElementsByTag("USBUREAU").text();
             document.add(new TextField("USBureau", USBureau, Field.Store.YES));
 
-            String doctitle = element.getElementsByTag("DOCTITILE").text();
+            // Doc Title: Useful
+            String doctitle = element.getElementsByTag("DOCTITLE").text();
             document.add(new TextField("doctitle", doctitle, Field.Store.YES));
 
+            // Address of Dept: Unlikely that it is useful
             String address = element.getElementsByTag("ADDRESS").text();
             document.add(new TextField("address", address, Field.Store.YES));
 
+            // Further contact information: Potentially useful
             String further = element.getElementsByTag("FURTHER").text();
             document.add(new TextField("further", further, Field.Store.YES));
 
+            // Summary: Useful
             String summary = element.getElementsByTag("SUMMARY").text();
             document.add(new TextField("summary", summary, Field.Store.YES));
 
+            // Action taken: Unlikely that it is useful
             String action = element.getElementsByTag("ACTION").text();
             document.add(new TextField("action", action, Field.Store.YES));
 
+            // Person siging doc: Unlikely that it is useful 
             String signer = element.getElementsByTag("SIGNER").text();
             document.add(new TextField("SIGNER", signer, Field.Store.YES));
 
+            // Job of person signing doc: Unlikely that it is useful 
             String signjob = element.getElementsByTag("SIGNJOB").text();
             document.add(new TextField("signjob", signjob , Field.Store.YES)); 
 
+            // Extra Info: Potentially useful
             String supplem = element.getElementsByTag("SUPPLEM").text();
             document.add(new TextField("supplem", supplem, Field.Store.YES));
 
-            String FRfiling = element.getElementsByTag("FRFILING").text();
-            document.add(new TextField("FRfiling", FRfiling, Field.Store.YES));
-
-            String billing = element.getElementsByTag("BILLING").text();
-            document.add(new TextField("billing", billing, Field.Store.YES));
-
+            // Date: Potentially useful
             String date = element.getElementsByTag("DATE").text();
             document.add(new TextField("date", date, Field.Store.YES));
 
-            String CFRNO = element.getElementsByTag("CFRNO").text();
-            document.add(new TextField("CFRNO", CFRNO, Field.Store.YES));
-
-            String RINDOCK = element.getElementsByTag("RINDOCK").text();
-            document.add(new TextField("RINDOCK", RINDOCK, Field.Store.YES));
-
+            // Table: Potentially useful
             String table = element.getElementsByTag("TABLE").text();
             document.add(new TextField("table", table, Field.Store.YES));
 
+            // Footnote: Unlikely that this is useful
             String footnote = element.getElementsByTag("FOOTNOTE").text();
             document.add(new TextField("footnote", footnote, Field.Store.YES));
 
-            String footcite = element.getElementsByTag("FOOTCITE").text();
-            document.add(new TextField("footcite", footcite, Field.Store.YES));
+            // Parent: Not useful, is same as DOCNO
+            // String parent = element.getElementsByTag("PARENT").text();
+            // document.add(new StringField("parent", parent, Field.Store.YES));
 
-            String footname = element.getElementsByTag("FOOTNAME").text();
-            document.add(new TextField("footname", footname, Field.Store.YES));
+            // Next few our code and reference tags: Not useful
+            // String FRfiling = element.getElementsByTag("FRFILING").text();
+            // document.add(new TextField("FRfiling", FRfiling, Field.Store.YES));
+
+            // String billing = element.getElementsByTag("BILLING").text();
+            // document.add(new StringField("billing", billing, Field.Store.YES));
+
+            // String CFRNO = element.getElementsByTag("CFRNO").text();
+            // document.add(new TextField("CFRNO", CFRNO, Field.Store.YES));
+
+            // String RINDOCK = element.getElementsByTag("RINDOCK").text();
+            // document.add(new TextField("RINDOCK", RINDOCK, Field.Store.YES));
+
+            // String footcite = element.getElementsByTag("FOOTCITE").text();
+            // document.add(new TextField("footcite", footcite, Field.Store.YES));
+
+            // String footname = element.getElementsByTag("FOOTNAME").text();
+            // document.add(new TextField("footname", footname, Field.Store.YES));
 
             iwriter.addDocument(document);
         }

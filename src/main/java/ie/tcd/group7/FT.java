@@ -63,26 +63,33 @@ public class FT {
             Document document = new Document();
 
             // Creates a document with the fields specified to be written to an index
+            // ID: Useful
             String id = element.getElementsByTag("DOCNO").text();
             document.add(new StringField("id", id, Field.Store.YES));
 
-            String profile = element.getElementsByTag("PROFILE").text();
-            document.add(new TextField("profile", profile, Field.Store.YES));
-
+            // Date: Useful (but in Timestamp format)
             String date = element.getElementsByTag("DATE").text();
             document.add(new TextField("date", date, Field.Store.YES));
             
+            // Headline: Useful
             String headline = element.getElementsByTag("HEADLINE").text();
-            document.add(new StringField("title", headline, Field.Store.YES));
+            document.add(new TextField("headline", headline, Field.Store.YES));
 
+            // Text: Useful
             String text = element.getElementsByTag("TEXT").text();
             document.add(new TextField("text", text, Field.Store.YES));
 
-            String pub = element.getElementsByTag("PUB").text();
-            document.add(new TextField("pub", pub, Field.Store.YES));
-
+            // Page taken from: Probably not useful
             String page = element.getElementsByTag("PAGE").text();
             document.add(new TextField("page", page, Field.Store.YES));
+
+            // Publisher: Always Finacial Times so not useful 
+            // String pub = element.getElementsByTag("PUB").text();
+            // document.add(new TextField("pub", pub, Field.Store.YES));
+            
+            // Another ID
+            // String profile = element.getElementsByTag("PROFILE").text();
+            // document.add(new StringField("profile", profile, Field.Store.YES));
 
             iwriter.addDocument(document);
         }
