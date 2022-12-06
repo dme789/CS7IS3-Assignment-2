@@ -29,7 +29,6 @@ public class QueryIndex {
 
     private static String INDEX_DIRECTORY = "index";
     private static String QUERY_DATA = "data/Assignment Two/Queries/topics";
-    private static String RESULT_DIRECTORY = "results/query-results.txt";
 
     public static List<Query> search(int scoringType, Analyzer analyzer) throws Exception
 
@@ -41,7 +40,6 @@ public class QueryIndex {
         try {
             System.out.println("Starting index querying...");
             BufferedReader queryReader = new BufferedReader(new FileReader(QUERY_DATA));
-            BufferedWriter queryWriter = new BufferedWriter(new FileWriter(RESULT_DIRECTORY));
             String currLine = queryReader.readLine();
             int queryNumber = 0;
             // loops through entire topic file generating and querying from topics
@@ -94,7 +92,6 @@ public class QueryIndex {
                 queries.add(queryQ);
             }
             queryReader.close();
-            queryWriter.close();
             System.out.println("FINISHED: Total queries created is " + queryNumber);
 
         } catch (FileNotFoundException e) {
