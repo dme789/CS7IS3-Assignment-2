@@ -73,7 +73,7 @@ public class FT {
             
             // Headline: Useful
             String headline = element.getElementsByTag("HEADLINE").text();
-            document.add(new TextField("headline", headline, Field.Store.YES));
+            document.add(new TextField("title", headline, Field.Store.YES));
 
             // Text: Useful
             String text = element.getElementsByTag("TEXT").text();

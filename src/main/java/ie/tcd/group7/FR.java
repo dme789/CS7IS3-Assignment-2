@@ -93,7 +93,7 @@ public class FR {
 
             // Doc Title: Useful
             String doctitle = element.getElementsByTag("DOCTITLE").text();
-            document.add(new TextField("doctitle", doctitle, Field.Store.YES));
+            document.add(new TextField("title", doctitle, Field.Store.YES));
 
             // Address of Dept: Unlikely that it is useful
             String address = element.getElementsByTag("ADDRESS").text();
@@ -105,7 +105,7 @@ public class FR {
 
             // Summary: Useful
             String summary = element.getElementsByTag("SUMMARY").text();
-            document.add(new TextField("summary", summary, Field.Store.YES));
+            document.add(new TextField("text", summary, Field.Store.YES));
 
             // Action taken: Unlikely that it is useful
             String action = element.getElementsByTag("ACTION").text();

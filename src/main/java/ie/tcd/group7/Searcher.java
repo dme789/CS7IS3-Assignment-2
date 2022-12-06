@@ -35,7 +35,7 @@ public class Searcher {
         this.similarity = getSimilarity(scoringType);
         this.queries = queries;
         // BASIC MULTI PARSER FOR NOW
-        this.multiParser = new MultiFieldQueryParser(new String[]{"title", "text", "pub", "profile", "header"}, analyzer);
+        this.multiParser = new MultiFieldQueryParser(new String[]{"title", "text", "profile", "headline"}, analyzer);
     }
 
 

@@ -65,7 +65,7 @@ public class LA {
             // Creates a document with the fields specified to be written to an index
             // Id: Useful
             String id = element.getElementsByTag("DOCNO").text();
-            document.add(new StringField("docno", id, Field.Store.YES));
+            document.add(new StringField("id", id, Field.Store.YES));
 
             // Text: Useful
             String text = element.getElementsByTag("TEXT").text();

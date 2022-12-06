@@ -86,7 +86,7 @@ public class FBIS {
             document.add(new TextField("H2", H2, Field.Store.YES));
 
             String H3 = element.getElementsByTag("H3").text();
-            document.add(new TextField("H3", H3, Field.Store.YES));
+            document.add(new TextField("title", H3, Field.Store.YES));
             
             String H4 = element.getElementsByTag("H4").text();
             document.add(new TextField("H4", H4, Field.Store.YES));
