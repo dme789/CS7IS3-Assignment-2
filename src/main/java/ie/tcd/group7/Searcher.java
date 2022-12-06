@@ -127,7 +127,7 @@ public class Searcher {
             for (int i = 0; i < hits.length; i++) {
                 // Get the document ID
                 Document document = this.searcher.doc(hits[i].doc);
-                String documentId = document.get("DOCNO");
+                String documentId = document.get("id");
                 // Get query results
                 Result result = new Result(num, documentId, i + 1, hits[i].score);
                 results.add(result);
