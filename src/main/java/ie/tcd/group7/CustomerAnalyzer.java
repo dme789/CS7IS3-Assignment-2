@@ -11,8 +11,11 @@ import java.util.List;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.core.FlattenGraphFilter;
+import org.apache.lucene.analysis.core.LetterTokenizer;
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
+import org.apache.lucene.analysis.en.EnglishMinimalStemFilter;
 import org.apache.lucene.analysis.en.EnglishPossessiveFilter;
+import org.apache.lucene.analysis.en.KStemFilter;
 import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.LowerCaseFilter;
 import org.apache.lucene.analysis.miscellaneous.TrimFilter;
@@ -27,10 +30,8 @@ import org.apache.lucene.analysis.TokenStream;
 public class CustomerAnalyzer extends Analyzer
 {
     // Synonym paths
-    private static final String SYN_COUNTRY_PATH = "./data/synonyms/country.txt";
-
+    private static final String COUNTRY_PATH = "./data/synonyms/country.txt";
     private CharArraySet stopwords;
-
     public CustomerAnalyzer() throws IOException, ParseException {
         this.stopwords = getStopwords();
     }
@@ -44,10 +45,10 @@ public class CustomerAnalyzer extends Analyzer
 
 
     // create a synonymMap
-    private SynonymMap getSynonymMap() {
+    private SynonymMap getSynonymMapCountry() {
         SynonymMap synMap = new SynonymMap(null, null, 0);
         try {
-            BufferedReader countries = new BufferedReader(new FileReader(SYN_COUNTRY_PATH));
+            BufferedReader countries = new BufferedReader(new FileReader(COUNTRY_PATH));
 
             final SynonymMap.Builder builder = new SynonymMap.Builder(true);
             String country = countries.readLine();
@@ -75,8 +76,7 @@ public class CustomerAnalyzer extends Analyzer
         stream = new EnglishPossessiveFilter(stream);
         stream = new PorterStemFilter(stream);
         stream = new StopFilter(stream, this.stopwords);
-        stream = new FlattenGraphFilter(new SynonymGraphFilter(stream, getSynonymMap(), true));
-        stream = new PorterStemFilter(stream);
+        stream = new FlattenGraphFilter(new SynonymGraphFilter(stream, getSynonymMapCountry(), true));
 
         return new TokenStreamComponents(tokenizer, stream);
     }

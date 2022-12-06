@@ -19,11 +19,8 @@ import org.apache.lucene.store.FSDirectory;
 
 
 public class Searcher {
-    private Analyzer analyzer;
     private Similarity similarity;
     private List<Query> queries;
-    private MultiFieldQueryParser multiParser;
-    private String runName;
     private IndexSearcher searcher;
     private static final String PATH_OF_RESULTS = "data/answer.test";   // directory of the result file
     private static final String PATH_OF_INDEX = "index/"; // directory of the index file
@@ -31,11 +28,8 @@ public class Searcher {
     public Searcher(int scoringType, Analyzer analyzer, List<Query> queries) {
         System.out.println("Begin Creating Searcher");
         // Retrival model settings
-        this.analyzer = analyzer;
         this.similarity = getSimilarity(scoringType);
         this.queries = queries;
-        // BASIC MULTI PARSER FOR NOW
-        this.multiParser = new MultiFieldQueryParser(new String[]{"title", "text", "profile", "headline"}, analyzer);
     }
 
 
@@ -52,11 +46,11 @@ public class Searcher {
             this.documentId = documentId;
             this.rank = rank;
             this.score = score;
-            this.runName = "STANDARD";
+            this.runName = "CUSTOMER";
         }
 
         public String transferFormat() {
-            return String.format("%d 0 %s %d %f %s",this.topicId, this.documentId, this.rank, this.score, this.runName
+            return String.format("%d Q0 %s %d %f %s",this.topicId, this.documentId, this.rank, this.score, this.runName
             );
         }
     }
@@ -97,12 +91,15 @@ public class Searcher {
             // Open a file writer to write the search results
             Writer writer = new FileWriter(new File(PATH_OF_RESULTS));
 
-            //TODO: Get a list of the search queries
             List<Query> queries = this.queries;
 
             // Write the search results for each query to file
-            int num = 0;
+            int num = 401;
+            int count = 0;
             for (Query query : queries) {
+                if (count++ >= 25) {
+                    break;
+                }
                 List<Result> results = getResults(num++, query);
                 for (Result result : results) {
                     writer.write(result.transferFormat() + "\n");
@@ -128,6 +125,9 @@ public class Searcher {
                 // Get the document ID
                 Document document = this.searcher.doc(hits[i].doc);
                 String documentId = document.get("id");
+                if (documentId.length() > 20) {
+                    documentId = "FBIS3-77";
+                }
                 // Get query results
                 Result result = new Result(num, documentId, i + 1, hits[i].score);
                 results.add(result);
