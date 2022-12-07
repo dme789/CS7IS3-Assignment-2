@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.lucene.analysis.Analyzer;
 
@@ -96,8 +97,22 @@ public class QueryIndex {
 //                queries.add(queryParser.build());
 
                 // query composition from topic fields
-//                query = (title+ "\n" + narrative + "\n" + description).trim();
-                query = (title+ "\n" + description).trim();
+                String[] splitNar = narrative.split("(?<=[a-z])\\.\\s+");
+                String usefulNar = "";
+                for(int i = 0; i < splitNar.length; i++) {
+                    boolean check1 = splitNar[i].toLowerCase().contains("not relevant");
+                    boolean check2 = splitNar[i].toLowerCase().contains("irrelevant");
+                    if (check1 || check2) {
+                        String content = splitNar[i].toLowerCase();
+                        if(content.contains("unless")) {
+                            usefulNar = usefulNar + content.split("unless")[1];
+                        }
+                    }
+                    else {
+                        usefulNar = usefulNar + splitNar[i];
+                    }
+                }
+                query = (title+ "\n" + usefulNar  + "\n" + description).trim();
                 query = query.replace("?", "");
                 Query queryQ = queryParser.parse(QueryParser.escape(query));
                 queries.add(queryQ);
