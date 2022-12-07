@@ -44,15 +44,15 @@ public class CustomerAnalyzer extends Analyzer
     }
 
 
-    // create a synonymMap
+    // create a synonymMap about country information
     private SynonymMap getSynonymMapCountry() {
         SynonymMap synMap = new SynonymMap(null, null, 0);
         try {
             BufferedReader countries = new BufferedReader(new FileReader(COUNTRY_PATH));
-
+            // create builder
             final SynonymMap.Builder builder = new SynonymMap.Builder(true);
             String country = countries.readLine();
-
+            // read country information
             while(country != null) {
                 builder.add(new CharsRef("country"), new CharsRef(country), true);
                 builder.add(new CharsRef("countries"), new CharsRef(country), true);
@@ -71,7 +71,7 @@ public class CustomerAnalyzer extends Analyzer
         StandardTokenizer tokenizer = new StandardTokenizer();
         // Create TokenStream
         TokenStream stream = new LowerCaseFilter(tokenizer);;
-
+        // Add stream filter
         stream = new TrimFilter(stream);
         stream = new EnglishPossessiveFilter(stream);
         stream = new PorterStemFilter(stream);

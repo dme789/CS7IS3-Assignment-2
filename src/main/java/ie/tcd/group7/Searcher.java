@@ -25,13 +25,12 @@ public class Searcher {
     private static final String PATH_OF_RESULTS = "data/answer.test";   // directory of the result file
     private static final String PATH_OF_INDEX = "index/"; // directory of the index file
 
-    public Searcher(int scoringType, Analyzer analyzer, List<Query> queries) {
+    public Searcher(int scoringType, List<Query> queries) {
         System.out.println("Begin Creating Searcher");
         // Retrival model settings
         this.similarity = getSimilarity(scoringType);
         this.queries = queries;
     }
-
 
     // get query top 1000 results
     private class Result {
@@ -90,14 +89,10 @@ public class Searcher {
             System.out.println("Begin to score query");
             // Open a file writer to write the search results
             Writer writer = new FileWriter(new File(PATH_OF_RESULTS));
-
-            List<Query> queries = this.queries;
-
             // Write the search results for each query to file
             int num = 401;
-            for (Query query : queries) {
-                List<Result> results = getResults(num, query);
-                num++;
+            for (Query query : this.queries) {
+                List<Result> results = getResults(num++, query);
                 for (Result result : results) {
                     writer.write(result.transferFormat() + "\n");
                 }
@@ -123,7 +118,6 @@ public class Searcher {
                 Document document = this.searcher.doc(hits[i].doc);
                 String documentId = document.get("id");
                 if (documentId.length() > 20) {
-                    System.out.println("CHECK - docID: " + documentId);
                     documentId = "FBIS3-77";
                 }
                 // Get query results

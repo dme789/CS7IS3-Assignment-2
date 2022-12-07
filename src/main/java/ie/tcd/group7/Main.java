@@ -22,8 +22,8 @@ public class Main
         int scoringType = CreateIndex.createIndex(analyzer);
 
         // query index
-        List<Query> queries = QueryIndex.search(analyzer);
-        Searcher searcher = new Searcher(scoringType, analyzer, queries);
+        List<Query> queries = QueryIndex.search(scoringType, analyzer);
+        Searcher searcher = new Searcher(scoringType, queries);
         searcher.scoreQuery();
 
         System.out.println("PROGRAM COMPLETED");
