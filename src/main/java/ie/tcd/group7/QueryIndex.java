@@ -32,7 +32,7 @@ public class QueryIndex {
     public static List<Query> search(Analyzer analyzer) throws Exception
 
     {
-        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text", "summary"}, analyzer);
+        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text"}, analyzer);
 
         List<Query> queries = new ArrayList<Query>();
         try {
