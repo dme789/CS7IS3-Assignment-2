@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.similarities.*;
 
 import org.apache.lucene.store.FSDirectory;
@@ -20,10 +22,6 @@ import org.apache.lucene.index.DirectoryReader;
 
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
-
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.IndexSearcher;
 
 public class QueryIndex {
 
@@ -34,7 +32,7 @@ public class QueryIndex {
 
     {
         // TODO : Basic multi field parser used for now. Need to test and refine parser used!
-        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text", "headline"}, analyzer);
+//        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text", "headline"}, analyzer);
 
         List<Query> queries = new ArrayList<Query>();
         try {
@@ -85,11 +83,23 @@ public class QueryIndex {
                 currLine = queryReader.readLine();
                 currLine = queryReader.readLine();
 
+                BooleanQuery.Builder queryParser = new BooleanQuery.Builder();
+                Query term1 = new TermQuery(new Term("title", title));
+                Query term2 = new TermQuery(new Term("text", description));
+                Query term3 = new TermQuery(new Term("text", narrative));
+                Query term4 = new TermQuery(new Term("title", description));
+                queryParser.add(new BooleanClause(term1, BooleanClause.Occur.MUST));
+                queryParser.add(new BooleanClause(term2, BooleanClause.Occur.SHOULD));
+                queryParser.add(new BooleanClause(term3, BooleanClause.Occur.SHOULD));
+                queryParser.add(new BooleanClause(term4, BooleanClause.Occur.SHOULD));
+
+                queries.add(queryParser.build());
+
                 // query composition from topic fields
-                query = (title+ "\n" + narrative + "\n" + description).trim();
-                query = query.replace("?", "");
-                Query queryQ = queryParser.parse(QueryParser.escape(query));
-                queries.add(queryQ);
+//                query = (title+ "\n" + narrative + "\n" + description).trim();
+//                query = query.replace("?", "");
+//                Query queryQ = query.parse(QueryParser.escape(query));
+//                queries.add(queryQ);
             }
             queryReader.close();
             System.out.println("FINISHED: Total queries created is " + queryNumber);
