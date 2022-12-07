@@ -32,8 +32,7 @@ public class QueryIndex {
     public static List<Query> search(Analyzer analyzer) throws Exception
 
     {
-        // TODO : Basic multi field parser used for now. Need to test and refine parser used!
-        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text"}, analyzer);
+        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text", "summary"}, analyzer);
 
         List<Query> queries = new ArrayList<Query>();
         try {
@@ -101,9 +100,8 @@ public class QueryIndex {
                         usefulNar = usefulNar + splitNar[i];
                     }
                 }
-                String resultNar = usefulNar.replaceAll("(?i)" + "relevant","");
                 // query composition from topic fields
-                query = (title+ "\n" + resultNar  + "\n" + description).trim();
+                query = (title+ "\n" + usefulNar  + "\n" + description).trim();
                 query = query.replace("?", "");
                 Query queryQ = queryParser.parse(QueryParser.escape(query));
                 queries.add(queryQ);

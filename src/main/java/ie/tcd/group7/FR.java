@@ -121,7 +121,7 @@ public class FR {
 
             // Extra Info: Potentially useful
             String supplem = element.getElementsByTag("SUPPLEM").text();
-            document.add(new TextField("supplem", supplem, Field.Store.YES));
+            document.add(new TextField("summary", supplem, Field.Store.YES));
 
             // Date: Potentially useful
             String date = element.getElementsByTag("DATE").text();
