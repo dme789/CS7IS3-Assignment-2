@@ -97,7 +97,7 @@ public class LA {
 
             // Headline: Useful
             String headline = element.getElementsByTag("HEADLINE").text();
-            document.add(new TextField("headline", headline, Field.Store.YES));
+            document.add(new TextField("title", headline, Field.Store.YES));
 
             // Section of book: Probably not useful
             String section = element.getElementsByTag("SECTION").text();

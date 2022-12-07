@@ -97,9 +97,9 @@ public class Searcher {
             int num = 401;
             int count = 0;
             for (Query query : queries) {
-//                if (count++ >= 25) {
-//                    break;
-//                }
+                if (count++ >= 25) {
+                    break;
+                }
                 List<Result> results = getResults(num, query);
                 num++;
                 for (Result result : results) {

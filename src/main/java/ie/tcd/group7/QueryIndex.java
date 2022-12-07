@@ -34,7 +34,7 @@ public class QueryIndex {
 
     {
         // TODO : Basic multi field parser used for now. Need to test and refine parser used!
-        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text", "profile", "headline"}, analyzer);
+        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text", "headline"}, analyzer);
 
         List<Query> queries = new ArrayList<Query>();
         try {
