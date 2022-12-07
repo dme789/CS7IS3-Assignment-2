@@ -95,12 +95,9 @@ public class Searcher {
 
             // Write the search results for each query to file
             int num = 401;
-            int count = 0;
             for (Query query : queries) {
-                if (count++ >= 25) {
-                    break;
-                }
-                List<Result> results = getResults(num++, query);
+                List<Result> results = getResults(num, query);
+                num++;
                 for (Result result : results) {
                     writer.write(result.transferFormat() + "\n");
                 }
@@ -126,6 +123,7 @@ public class Searcher {
                 Document document = this.searcher.doc(hits[i].doc);
                 String documentId = document.get("id");
                 if (documentId.length() > 20) {
+                    System.out.println("CHECK - docID: " + documentId);
                     documentId = "FBIS3-77";
                 }
                 // Get query results

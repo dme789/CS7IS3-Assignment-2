@@ -97,7 +97,7 @@ public class LA {
 
             // Headline: Useful
             String headline = element.getElementsByTag("HEADLINE").text();
-            document.add(new TextField("headline", headline, Field.Store.YES));
+            document.add(new TextField("title", headline, Field.Store.YES));
 
             // Section of book: Probably not useful
             String section = element.getElementsByTag("SECTION").text();
@@ -105,7 +105,7 @@ public class LA {
 
             // Subject of Doc: Potentially useful
             String subject = element.getElementsByTag("SUBJECT").text();
-            document.add(new TextField("subject", subject, Field.Store.YES));
+            document.add(new TextField("summary", subject, Field.Store.YES));
 
             // Type of Doc: Probably not useful
             String type = element.getElementsByTag("TYPE").text();

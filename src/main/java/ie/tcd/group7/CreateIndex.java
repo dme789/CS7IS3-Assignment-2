@@ -64,7 +64,7 @@ public class CreateIndex {
             // parse_file function in FT.java splits the doc into fields.
             // Each document is indexed once document is complete
             FTdata.parse_FT(iwriter);
-            
+
 
 // ----------------------Parsing Federal Register Data----------------------------
 
@@ -79,7 +79,7 @@ public class CreateIndex {
             // parse_file function in FT.java splits the doc into fields.
             // Each document is indexed once document is complete
             FBISdata.parse_FBIS(iwriter);
-            
+
 
 // ----------------------Parsing LA times data----------------------------
 

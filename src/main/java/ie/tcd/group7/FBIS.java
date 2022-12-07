@@ -64,7 +64,7 @@ public class FBIS {
 
             // Abstract: Useful
             String abs = element.getElementsByTag("ABS").text();
-            document.add(new TextField("abs", abs, Field.Store.YES));
+            document.add(new TextField("summary", abs, Field.Store.YES));
 
             // Date: Useful
             String date = element.getElementsByTag("DATE1").text();
@@ -99,7 +99,7 @@ public class FBIS {
 
             String H7 = element.getElementsByTag("H7").text();
             document.add(new TextField("H7", H7, Field.Store.YES));
-        
+
             String H8 = element.getElementsByTag("H8").text();
             document.add(new TextField("H8", H8, Field.Store.YES));
 

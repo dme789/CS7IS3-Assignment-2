@@ -9,9 +9,12 @@ import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.lucene.analysis.Analyzer;
 
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.similarities.*;
 
 import org.apache.lucene.store.FSDirectory;
@@ -21,20 +24,15 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.IndexSearcher;
-
 public class QueryIndex {
 
     private static String INDEX_DIRECTORY = "index";
     private static String QUERY_DATA = "data/Assignment Two/Queries/topics";
 
-    public static List<Query> search(int scoringType, Analyzer analyzer) throws Exception
+    public static List<Query> search(Analyzer analyzer) throws Exception
 
     {
-        // TODO : Basic multi field parser used for now. Need to test and refine parser used!
-        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text", "profile", "headline"}, analyzer);
+        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text"}, analyzer);
 
         List<Query> queries = new ArrayList<Query>();
         try {
@@ -85,8 +83,25 @@ public class QueryIndex {
                 currLine = queryReader.readLine();
                 currLine = queryReader.readLine();
 
+
+                // Removing un-worthwhile sections of narrative from topic
+                String[] splitNar = narrative.split("(?<=[a-z])\\.\\s+");
+                String usefulNar = "";
+                for(int i = 0; i < splitNar.length; i++) {
+                    boolean check1 = splitNar[i].toLowerCase().contains("not relevant");
+                    boolean check2 = splitNar[i].toLowerCase().contains("irrelevant");
+                    if (check1 || check2) {
+                        String content = splitNar[i].toLowerCase();
+                        if(content.contains("unless")) {
+                            usefulNar = usefulNar + content.split("unless")[1];
+                        }
+                    }
+                    else {
+                        usefulNar = usefulNar + splitNar[i];
+                    }
+                }
                 // query composition from topic fields
-                query = (title+ "\n" + narrative + "\n" + description).trim();
+                query = (title+ "\n" + usefulNar  + "\n" + description).trim();
                 query = query.replace("?", "");
                 Query queryQ = queryParser.parse(QueryParser.escape(query));
                 queries.add(queryQ);
