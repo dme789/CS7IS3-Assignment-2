@@ -28,11 +28,11 @@ public class QueryIndex {
     private static String INDEX_DIRECTORY = "index";
     private static String QUERY_DATA = "data/Assignment Two/Queries/topics";
 
-    public static List<Query> search(int scoringType, Analyzer analyzer) throws Exception
+    public static List<Query> search(Analyzer analyzer) throws Exception
 
     {
         // TODO : Basic multi field parser used for now. Need to test and refine parser used!
-//        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text", "headline"}, analyzer);
+        MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text", "abs"}, analyzer);
 
         List<Query> queries = new ArrayList<Query>();
         try {
@@ -83,23 +83,23 @@ public class QueryIndex {
                 currLine = queryReader.readLine();
                 currLine = queryReader.readLine();
 
-                BooleanQuery.Builder queryParser = new BooleanQuery.Builder();
-                Query term1 = new TermQuery(new Term("title", title));
-                Query term2 = new TermQuery(new Term("text", description));
-                Query term3 = new TermQuery(new Term("text", narrative));
-                Query term4 = new TermQuery(new Term("title", description));
-                queryParser.add(new BooleanClause(term1, BooleanClause.Occur.MUST));
-                queryParser.add(new BooleanClause(term2, BooleanClause.Occur.SHOULD));
-                queryParser.add(new BooleanClause(term3, BooleanClause.Occur.SHOULD));
-                queryParser.add(new BooleanClause(term4, BooleanClause.Occur.SHOULD));
-
-                queries.add(queryParser.build());
+//                BooleanQuery.Builder queryParser = new BooleanQuery.Builder();
+//                Query term1 = new TermQuery(new Term("title", title));
+//                Query term2 = new TermQuery(new Term("text", description));
+//                Query term3 = new TermQuery(new Term("text", narrative));
+//                Query term4 = new TermQuery(new Term("title", description));
+//                queryParser.add(new BooleanClause(term1, BooleanClause.Occur.MUST));
+//                queryParser.add(new BooleanClause(term2, BooleanClause.Occur.SHOULD));
+//                queryParser.add(new BooleanClause(term3, BooleanClause.Occur.SHOULD));
+//                queryParser.add(new BooleanClause(term4, BooleanClause.Occur.SHOULD));
+//
+//                queries.add(queryParser.build());
 
                 // query composition from topic fields
-//                query = (title+ "\n" + narrative + "\n" + description).trim();
-//                query = query.replace("?", "");
-//                Query queryQ = query.parse(QueryParser.escape(query));
-//                queries.add(queryQ);
+                query = (title+ "\n" + narrative + "\n" + description).trim();
+                query = query.replace("?", "");
+                Query queryQ = queryParser.parse(QueryParser.escape(query));
+                queries.add(queryQ);
             }
             queryReader.close();
             System.out.println("FINISHED: Total queries created is " + queryNumber);

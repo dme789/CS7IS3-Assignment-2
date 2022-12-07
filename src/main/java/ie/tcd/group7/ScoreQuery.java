@@ -22,7 +22,7 @@ public class ScoreQuery
 //        int scoringType = CreateIndex.createIndex(analyzer);
 
         // query index
-        List<Query> queries = QueryIndex.search(1, analyzer);
+        List<Query> queries = QueryIndex.search(analyzer);
         Searcher searcher = new Searcher(1, analyzer, queries);
         searcher.scoreQuery();
 
