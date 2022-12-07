@@ -96,7 +96,8 @@ public class QueryIndex {
 //                queries.add(queryParser.build());
 
                 // query composition from topic fields
-                query = (title+ "\n" + narrative + "\n" + description).trim();
+//                query = (title+ "\n" + narrative + "\n" + description).trim();
+                query = (title+ "\n" + description).trim();
                 query = query.replace("?", "");
                 Query queryQ = queryParser.parse(QueryParser.escape(query));
                 queries.add(queryQ);
