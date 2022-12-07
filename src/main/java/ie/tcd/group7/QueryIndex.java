@@ -84,19 +84,8 @@ public class QueryIndex {
                 currLine = queryReader.readLine();
                 currLine = queryReader.readLine();
 
-//                BooleanQuery.Builder queryParser = new BooleanQuery.Builder();
-//                Query term1 = new TermQuery(new Term("title", title));
-//                Query term2 = new TermQuery(new Term("text", description));
-//                Query term3 = new TermQuery(new Term("text", narrative));
-//                Query term4 = new TermQuery(new Term("title", description));
-//                queryParser.add(new BooleanClause(term1, BooleanClause.Occur.MUST));
-//                queryParser.add(new BooleanClause(term2, BooleanClause.Occur.SHOULD));
-//                queryParser.add(new BooleanClause(term3, BooleanClause.Occur.SHOULD));
-//                queryParser.add(new BooleanClause(term4, BooleanClause.Occur.SHOULD));
-//
-//                queries.add(queryParser.build());
 
-                // query composition from topic fields
+                // Removing un-worthwhile sections of narrative from topic
                 String[] splitNar = narrative.split("(?<=[a-z])\\.\\s+");
                 String usefulNar = "";
                 for(int i = 0; i < splitNar.length; i++) {
@@ -112,7 +101,9 @@ public class QueryIndex {
                         usefulNar = usefulNar + splitNar[i];
                     }
                 }
-                query = (title+ "\n" + usefulNar  + "\n" + description).trim();
+                String resultNar = usefulNar.replaceAll("(?i)" + "relevant","");
+                // query composition from topic fields
+                query = (title+ "\n" + resultNar  + "\n" + description).trim();
                 query = query.replace("?", "");
                 Query queryQ = queryParser.parse(QueryParser.escape(query));
                 queries.add(queryQ);

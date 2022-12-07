@@ -95,11 +95,7 @@ public class Searcher {
 
             // Write the search results for each query to file
             int num = 401;
-            int count = 0;
             for (Query query : queries) {
-//                if (count++ >= 25) {
-//                    break;
-//                }
                 List<Result> results = getResults(num, query);
                 num++;
                 for (Result result : results) {
