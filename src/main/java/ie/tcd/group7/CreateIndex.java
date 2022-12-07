@@ -52,47 +52,47 @@ public class CreateIndex {
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
         config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
         int scoringType = setScoring(config);
-//        IndexWriter iwriter = new IndexWriter(directory, config);
-//
-//        try {
-//            System.out.println("Starting index processing...");
-//
-//// ----------------------Parsing Financial Times data----------------------------
-//
-//            // FT class to access functions in FT.java
-//            FT FTdata = new FT();
-//            // parse_file function in FT.java splits the doc into fields.
-//            // Each document is indexed once document is complete
-//            FTdata.parse_FT(iwriter);
-//
-//
-//// ----------------------Parsing Federal Register Data----------------------------
-//
-//            FR FRdata = new FR();
-//            // parse_file function in FT.java splits the doc into fields.
-//            // Each document is indexed once document is complete
-//            FRdata.parse_FR(iwriter);
-//
-//// ----------------------Parsing FBIS data----------------------------
-//
-//            FBIS FBISdata = new FBIS();
-//            // parse_file function in FT.java splits the doc into fields.
-//            // Each document is indexed once document is complete
-//            FBISdata.parse_FBIS(iwriter);
-//
-//
-//// ----------------------Parsing LA times data----------------------------
-//
-//            LA LAdata = new LA();
-//            // parse_file function in FT.java splits the doc into fields.
-//            LAdata.parse_LA(iwriter);
-//
-//            System.out.println("FINISHED: Indexing!");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        iwriter.close();
+        IndexWriter iwriter = new IndexWriter(directory, config);
+
+        try {
+            System.out.println("Starting index processing...");
+
+// ----------------------Parsing Financial Times data----------------------------
+
+            // FT class to access functions in FT.java
+            FT FTdata = new FT();
+            // parse_file function in FT.java splits the doc into fields.
+            // Each document is indexed once document is complete
+            FTdata.parse_FT(iwriter);
+
+
+// ----------------------Parsing Federal Register Data----------------------------
+
+            FR FRdata = new FR();
+            // parse_file function in FT.java splits the doc into fields.
+            // Each document is indexed once document is complete
+            FRdata.parse_FR(iwriter);
+
+// ----------------------Parsing FBIS data----------------------------
+
+            FBIS FBISdata = new FBIS();
+            // parse_file function in FT.java splits the doc into fields.
+            // Each document is indexed once document is complete
+            FBISdata.parse_FBIS(iwriter);
+
+
+// ----------------------Parsing LA times data----------------------------
+
+            LA LAdata = new LA();
+            // parse_file function in FT.java splits the doc into fields.
+            LAdata.parse_LA(iwriter);
+
+            System.out.println("FINISHED: Indexing!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        iwriter.close();
         directory.close();
         return scoringType;
     }
