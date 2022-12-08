@@ -30,7 +30,6 @@ public class QueryIndex {
     private static String QUERY_DATA = "data/Assignment Two/Queries/topics";
 
     public static List<Query> search(Analyzer analyzer) throws Exception
-
     {
         MultiFieldQueryParser queryParser = new MultiFieldQueryParser(new String[]{"title", "text"}, analyzer);
 
