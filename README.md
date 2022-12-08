@@ -2,11 +2,11 @@
 ## Group 7
 
 ### Members
-Dominique Meudec - 18327666
-Diego Molamphy - 183326635
-Siyu Liao - 22323209
-Haoxian Liu - 22322820
-Amelia Stanley - 18320778
+* Dominique Meudec - 18327666
+* Diego Molamphy - 183326635
+* Siyu Liao - 22323209
+* Haoxian Liu - 22322820
+* Amelia Stanley - 18320778
 
 
 ## Usage
